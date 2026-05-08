@@ -6,4 +6,7 @@
 
   # Allow Unfree Packages
   nixpkgs.config.allowUnfree = true;
+
+  # SSH
+  services.openssh.enable = true;
 }

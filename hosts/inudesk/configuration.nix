@@ -9,6 +9,12 @@ in
     ../../modules
   ];
 
+  # Nixpkgs
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [
+    inputs.rust-overlay.overlays.default
+  ];
+
   # Boot
   boot = {
     extraModulePackages = [ sc0710 ];
@@ -41,10 +47,6 @@ in
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [
-    inputs.rust-overlay.overlays.default
-  ];
 
   # Environment Variables
   environment.sessionVariables = {

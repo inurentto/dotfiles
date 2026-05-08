@@ -26,7 +26,6 @@ in
     wl-clipboard
 
     gh
-    codeberg-cli
     
     appimage-run
 
@@ -64,15 +63,6 @@ in
 
     extraModulePackages = [ sc0710 ];
     kernelModules = [ "sc0710" ];
-  };
-
-  # Graphics
-  hardware.graphics.enable = true;
-
-  # Display Manager
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
   };
 
   # Wayland

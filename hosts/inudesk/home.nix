@@ -68,6 +68,8 @@
     renderdoc
 
     vpkedit
+
+    kdePackages.isoimagewriter
   ];
 
   # Hyprland

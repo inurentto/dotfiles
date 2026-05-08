@@ -59,6 +59,7 @@
   in {
     nixosConfigurations = {
       inudesk = mkSystem { system = "x86_64-linux"; hostname = "inudesk"; };
+      inuserv = mkSystem { system = "x86_64-linux"; hostname = "inuserv"; };
     };
   };
 }

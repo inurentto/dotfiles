@@ -4,6 +4,12 @@
     ../../modules
   ];
 
+  # Display Manager
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
+
   # Auto Login
   services.displayManager.autoLogin = {
     enable = true;

@@ -21,9 +21,6 @@ in
     kernelModules = [ "sc0710" ];
   };
 
-  # Network
-  networking.hostName = "inudesk";
-
   # Display Manager
   services.displayManager.sddm = {
     enable = true;

@@ -11,7 +11,9 @@
   };
 
   # Module Imports
-  imports = [];
+  imports = [
+    ./steamcmd
+  ];
 
   # Packages
   environment.systemPackages = with pkgs; [

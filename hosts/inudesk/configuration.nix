@@ -242,4 +242,7 @@ in
     enable = true;
     openFirewall = true;
   };
+
+  # SteamCMD
+  programs.steamcmd.enable = true;
 }

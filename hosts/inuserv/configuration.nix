@@ -9,4 +9,10 @@
 
   # SSH
   services.openssh.enable = true;
+
+  # System Packages
+  environment.systemPackages = with pkgs; [];
+
+  # SteamCMD
+  programs.steamcmd.enable = true;
 }

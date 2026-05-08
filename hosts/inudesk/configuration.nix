@@ -1,7 +1,7 @@
 { config, pkgs, inputs, lib, ... }:
 
 let
-  sc0710 = config.boot.kernelPackages.callPackage ../../modules/kernel/sc0710 {};
+  sc0710 = config.boot.kernelPackages.callPackage ../../kernel/sc0710 {};
 in
 {
   # Module Imports

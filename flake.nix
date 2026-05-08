@@ -11,24 +11,23 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     awww.url = "git+https://codeberg.org/LGFae/awww";
-
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     stylix = {
       url = "github:nix-community/stylix/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     base16.url = "github:SenchoPens/base16.nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-
-    nixcord = {
-      url = "github:inurentto/nixcord";
+    nixcord.url = "github:FlameFlag/nixcord";
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+    rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
   outputs = { self, ... }@inputs:

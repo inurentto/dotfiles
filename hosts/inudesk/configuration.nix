@@ -1,8 +1,14 @@
-{ config, pkgs, inputs, ... }: {
+{ config, pkgs, inputs, lib, ... }: {
   # Module Imports
   imports = [
     ../../modules
   ];
+
+  # Auto Login
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "inurentto";
+  };
 
   # Graphics
   services.xserver.videoDrivers = ["nvidia"];
@@ -19,6 +25,9 @@
     };
   };
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [
+    inputs.rust-overlay.overlays.default
+  ];
 
   # Environment Variables
   environment.sessionVariables = {
@@ -27,6 +36,18 @@
     VST_PATH = "/run/current-system/sw/lib/vst";
     VST3_PATH = "/run/current-system/sw/lib/vst3";
     LV2_PATH = "/run/current-system/sw/lib/lv2";
+
+    XRT_COMPOSITOR_FORCE_WAYLAND_DIRECT="1";
+
+    XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots";
+  };
+
+  # Shell Aliases
+  environment.shellAliases = {
+    rebuild-nixos = "sudo nixos-rebuild switch --impure --flake ~/.config/nixos#inudesk";
+    cleanup-nixos = "sudo nix-collect-garbage --delete-old";
+
+    change-wallpaper = "~/.scripts/change-wallpaper.sh";
   };
 
   # Libraries (Separate into modules)
@@ -63,13 +84,19 @@
     ];
   };
 
+  # UPower
+  services.upower = {
+    enable = true;
+  };
+
   # Flatpak
   services.flatpak.enable = true;
 
   # Hyprland
-  programs.hyprland.enable = true;
-  programs.hyprlock.enable = true;
-  services.hypridle.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
 
   # Thunar
   programs.thunar.enable = true;
@@ -90,6 +117,7 @@
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;
+    protontricks.enable = true;
   };
 
   # OBS Studio
@@ -117,24 +145,85 @@
   # Ratbagd (Piper Dependency)
   services.ratbagd.enable = true;
 
+  # Monado (Rift S VR Support)
+  services.monado = {
+    enable = false;
+    defaultRuntime = true;
+    highPriority = true;
+  };
+  systemd.user.services.monado.environment = {
+    STEAMVR_LH_ENABLE = "1";
+    XRT_COMPOSITOR_COMPUTE = "1";
+    IPC_EXIT_ON_DISCONNECT = "1";
+    WMR_HANDTRACKING = "0";
+  };
+
   # System Packages (Separate into modules)
   environment.systemPackages = with pkgs; [
+    openssl
+    pkg-config
+
     dotnetCorePackages.sdk_9_0_1xx-bin
     dotnet-sdk_9
+    dotnet-sdk_10
+
+    wget
+    zenity
 
     wineWow64Packages.stable
-    wineWow64Packages.waylandFull
-    wine64
-    wineWowPackages.stable
-    wineWowPackages.waylandFull
-    wine
+    winetricks
 
-    qjackctl
+    bottles
+
+    qpwgraph
     carla
     rnnoise-plugin
     lsp-plugins
-    pulseaudio
+    pavucontrol
 
     piper
+
+    nodePackages.nodejs
+
+    gcc
+    gdb
+    cmake
+    gnumake
+    ninja
+
+    wayland
+    wayland-protocols
+    libxkbcommon
+    xorg.libX11
+    xorg.libXcursor
+    xorg.libXrandr
+    xorg.libXinerama
+    xorg.libXext
+
+    # rust-analyzer
+    # rust-bin.stable.latest.default.override {
+    #   extensions = [ "rust-src" ];
+    # }
+
+    v4l-utils
+
+    jetbrains.clion
+    jetbrains.rust-rover
+
+    python3Minimal
+    libffi
+
+    freetype
+
+    papirus-icon-theme
   ];
+
+  # Ladybird Browser
+  programs.ladybird.enable = true;
+
+  # LocalSend
+  programs.localsend = {
+    enable = true;
+    openFirewall = true;
+  };
 }

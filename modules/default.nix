@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, lib, ... }: {
+{ config, pkgs, inputs, lib, ... }:
+
+let
+  sc0710 = config.boot.kernelPackages.callPackage ./kernel/sc0710 {};
+in
+{
   # Remove unecessary preinstalled packages
   environment.defaultPackages = [ ];
   services.xserver.excludePackages = [ pkgs.xterm ];
@@ -18,10 +23,18 @@
     zip
     unzip
 
-    git
+    wl-clipboard
+
     gh
+    codeberg-cli
     
     appimage-run
+
+    pulseaudio
+
+    efibootmgr
+
+    lm_sensors
   ];
   
   # Nix
@@ -45,10 +58,12 @@
     kernelPackages = pkgs.linuxPackages_latest;
     tmp.cleanOnBoot = true;
     loader = {
-      systemd-boot.enable = true;
-      systemd-boot.editor = false;
+      limine.enable = true;
       efi.canTouchEfiVariables = true;
     };
+
+    extraModulePackages = [ sc0710 ];
+    kernelModules = [ "sc0710" ];
   };
 
   # Graphics
@@ -61,14 +76,28 @@
   };
 
   # Wayland
-  xdg = {
-    portal = {
-      enable = true;
-      xdgOpenUsePortal = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-        xdg-desktop-portal-gtk
-      ];
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+      kdePackages.xdg-desktop-portal-kde
+    ];
+
+    config = {
+      common = {
+        default = "hyprland;gtk";
+      };
+
+      kde = {
+        default = "kde";
+      };
+
+      "org.freedesktop.impl.portal.FileChooser" = {
+        default = "kde";
+      };
     };
   };
 
@@ -92,6 +121,7 @@
 
   # Keyring
   services.gnome.gnome-keyring.enable = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
 
   # Networking
   networking = {
@@ -104,6 +134,7 @@
         11000
         27016
         8080
+        53317
       ];
       allowedUDPPorts = [
         7777
@@ -112,6 +143,7 @@
         11000
         27016
         8080
+        53317
       ];
     };
   };
@@ -141,6 +173,9 @@
     pulse.enable = true;
     jack.enable = true;
   };
+
+  # Power Profiles
+  services.power-profiles-daemon.enable = true;
 
   # Printing
   services.printing.enable = true;
@@ -176,6 +211,21 @@
       extraGroups = [ "networkmanager" "wheel" "input" ];
     };
   };
+
+  # Direnv
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
+  # Git
+  programs.git = {
+    enable = true;
+    lfs.enable = true;
+  };
+
+  # VPN
+  services.mullvad-vpn.enable = true;
 
   # State Version
   system.stateVersion = "25.11";

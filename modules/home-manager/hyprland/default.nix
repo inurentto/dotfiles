@@ -6,6 +6,11 @@
       default = [];
       description = "Monitor config";
     };
+    autostart = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Apps that will start with hyprland (exec-once)";
+    };
   };
 
   config = lib.mkIf config.compositors.hyprland.enable {
@@ -14,13 +19,15 @@
       xwayland.enable = true;
       systemd.enable = true;
       systemd.variables = [ "--all" ];
-      
+
       settings = {
         "$terminal" = "alacritty";
         "$fileManager" = "thunar";
         "$browser" = "firefox";
-        "$menu" = "rofi -show drun";
-        "$screenshot" = "hyprshot --freeze --mode region --output-folder ~/Pictures/Screenshots";
+        "$launcher" = "qs ipc call launcher open";
+        "$screenshot" = "grimblast --notify --expire-time 8000 --freeze copysave area";
+        "$colorPick" = "hyprpicker --autocopy";
+        "$reloadShell" = "pkill quickshell; hyprctl dispatch exec qs";
 
         "$mainMod" = "SUPER";
 
@@ -31,12 +38,15 @@
           "$mainMod, E, exec, $fileManager"
           "$mainMod, V, togglefloating,"
           "$mainMod, F, fullscreen,"
-          "$mainMod, RETURN, exec, $menu"
+          "$mainMod, RETURN, exec, $launcher"
           "$mainMod, B, exec, $browser"
-          "$mainMod, W, exec, ./random_wallpaper.sh ~/Pictures/Wallpapers"
 
-          # Screenshot
+          # Screenshot & color pick
           ", PRINT, exec, $screenshot"
+          "$mainMod, PRINT, exec, $colorPick"
+
+          # Reload Shell
+          "$mainMod, HOME, exec, $reloadShell"
 
           # Move focus with mainMod + arrow keys
           "$mainMod, left, movefocus, l"
@@ -88,16 +98,7 @@
           ", XF86AudioNext, exec, playerctl next"
         ];
 
-        exec-once = [
-          "systemctl --user start hyprpolkitagent"
-          "hypridle"
-          "awww-daemon"
-          "qjackctl"
-          "~/.audio-setup/start.sh"
-          "qs"
-          "obs"
-          "streamcontroller -b"
-        ];
+        exec-once = config.compositors.hyprland.autostart;
 
         monitor = config.compositors.hyprland.monitors;
 
@@ -127,7 +128,7 @@
           border_size = 2;
 
           resize_on_border = false;
-          
+
           allow_tearing = true;
 
           layout = "dwindle";
@@ -189,7 +190,7 @@
         dwindle = {
           preserve_split = true;
         };
-        
+
         misc = {
           force_default_wallpaper = false;
           disable_hyprland_logo = true;
@@ -204,7 +205,7 @@
 
           # Quickshell
           "float,class:^(quickshell)$"
-          "noanim,class:^(quickshell)$"
+          #"noanim,class:^(quickshell)$"
           "noblur,class:^(quickshell)$"
 
           # Rofi fixes
@@ -232,6 +233,21 @@
           "stayfocused,initialClass:Godot,title:Create New Resource"
           "stayfocused,initialClass:Godot,title:Create New Scene"
           "stayfocused,initialClass:Godot,title:^(Change Type of)" # this doesn't work for some reason :)
+
+          # JetBrains
+          # Prevent tooltips from taking focus (always have a title of `win.<id>`)
+          "noinitialfocus, class:^(.*jetbrains.*)$, title:^(win.*)$"
+          # Make "Go to file" and other dialogs always focused when open
+          "stayfocused, class:^(.*jetbrains.*)$, title:^$, floating:1"
+          # fix tab dragging (always have a single space character as their title)
+          "noinitialfocus, class:^(.*jetbrains.*)$, title:^\\s$"
+          # Tile new tabs automatically
+          "tile, class:^(jetbrains-*), floating:0"
+
+          # Unity
+          # Move popups to cursor
+          "move cursor, class:^(Unity)$, title:^(Color)$"
+          "move cursor, class:^(Unity)$, title:^(HDR Color)$"
         ];
 
         layerrule = [

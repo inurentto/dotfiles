@@ -1,9 +1,4 @@
-{ config, pkgs, inputs, lib, ... }:
-
-let
-  sc0710 = config.boot.kernelPackages.callPackage ./kernel/sc0710 {};
-in
-{
+{ config, pkgs, inputs, lib, ... }: {
   # Remove unecessary preinstalled packages
   environment.defaultPackages = [ ];
   services.xserver.excludePackages = [ pkgs.xterm ];
@@ -60,9 +55,6 @@ in
       limine.enable = true;
       efi.canTouchEfiVariables = true;
     };
-
-    extraModulePackages = [ sc0710 ];
-    kernelModules = [ "sc0710" ];
   };
 
   # Wayland

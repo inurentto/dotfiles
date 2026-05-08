@@ -1,8 +1,19 @@
-{ config, pkgs, inputs, lib, ... }: {
+{ config, pkgs, inputs, lib, ... }:
+
+let
+  sc0710 = config.boot.kernelPackages.callPackage ../../modules/kernel/sc0710 {};
+in
+{
   # Module Imports
   imports = [
     ../../modules
   ];
+
+  # Boot
+  boot = {
+    extraModulePackages = [ sc0710 ];
+    kernelModules = [ "sc0710" ];
+  };
 
   # Display Manager
   services.displayManager.sddm = {

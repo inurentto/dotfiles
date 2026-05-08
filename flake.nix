@@ -39,6 +39,11 @@
           {
             networking.hostName = hostname;
             nixpkgs.hostPlatform = system;
+
+            environment.shellAliases = {
+              rebuild-nixos = "sudo nixos-rebuild switch --flake ~/.config/nixos#${hostname}";
+              cleanup-nixos = "sudo nix-collect-garbage --delete-old";
+            };
           }
 
           (./. + "/hosts/${hostname}/configuration.nix")

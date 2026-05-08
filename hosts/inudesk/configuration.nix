@@ -63,9 +63,6 @@ in
 
   # Shell Aliases
   environment.shellAliases = {
-    rebuild-nixos = "sudo nixos-rebuild switch --impure --flake ~/.config/nixos#inudesk";
-    cleanup-nixos = "sudo nix-collect-garbage --delete-old";
-
     change-wallpaper = "~/.scripts/change-wallpaper.sh";
   };
 

@@ -20,8 +20,4 @@
 
   # Btop
   programs.btop.enable = true;
-
-  # Default Options
-  compositors.hyprland.enable = lib.mkDefault false;
-  services.stylix.enable = lib.mkDefault false;
 }

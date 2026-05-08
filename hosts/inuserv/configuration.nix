@@ -7,6 +7,9 @@
   # Allow Unfree Packages
   nixpkgs.config.allowUnfree = true;
 
+  # Network
+  networking.hostName = "inudesk";
+
   # SSH
   services.openssh.enable = true;
 }

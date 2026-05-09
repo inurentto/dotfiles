@@ -15,7 +15,7 @@ in
       description = "The package implementing SteamCMD";
     };
 
-    steam-runPackage = mkOption {
+    steamrunPackage = mkOption {
       type = types.package;
       default = pkgs.steam-run;
       defaultText = "pkgs.steam-run";
@@ -46,7 +46,7 @@ in
     systemd.services.satisfactory-server =
       let
         steamcmd = "${cfg.steamcmdPackage}/bin/steamcmd";
-        steam-run = "${cfg.steam-runPackage}/bin/steam-run";
+        steam-run = "${cfg.steamrunPackage}/bin/steam-run";
       in {
         description = "Satisfactory Dedicated Server";
         wantedBy = [ "multi-user.target" ];

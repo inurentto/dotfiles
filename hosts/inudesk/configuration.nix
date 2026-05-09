@@ -232,6 +232,8 @@ in
     freetype
 
     papirus-icon-theme
+
+    nwg-look
   ];
 
   # Ladybird Browser

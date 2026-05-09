@@ -13,6 +13,7 @@
   # Module Imports
   imports = [
     ./steamcmd
+    ./satisfactory
   ];
 
   # Packages
@@ -111,24 +112,8 @@
   networking = {
     networkmanager.enable = true;
     firewall = {
-      allowedTCPPorts = [
-        7777
-        8888
-        25565
-        11000
-        27016
-        8080
-        53317
-      ];
-      allowedUDPPorts = [
-        7777
-        25565
-        24454
-        11000
-        27016
-        8080
-        53317
-      ];
+      allowedTCPPorts = [];
+      allowedUDPPorts = [];
     };
   };
 

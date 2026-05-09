@@ -15,4 +15,11 @@
 
   # SteamCMD
   programs.steamcmd.enable = true;
+
+  # Satisfactory
+  services.satisfactory-server = {
+    enable = true;
+    dataDir = "~/Games/Satisfactory";
+    openFirewall = true;
+  };
 }

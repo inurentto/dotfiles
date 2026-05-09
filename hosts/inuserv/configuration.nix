@@ -19,7 +19,7 @@
   # Satisfactory
   services.satisfactory-server = {
     enable = true;
-    dataDir = "~/Games/Satisfactory";
+    dataDir = "$HOME/Games/Satisfactory";
     openFirewall = true;
   };
 }

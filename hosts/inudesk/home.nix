@@ -617,4 +617,9 @@
   #   runtime = [ "${pkgs.opencomposite}/lib/opencomposite" ];
   #   version = 1;
   # };
+
+  # Obsidian
+  programs.obsidian = {
+    enable = true;
+  };
 }

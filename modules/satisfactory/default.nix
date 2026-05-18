@@ -39,6 +39,12 @@ in
       default = false;
       description = "Whether to open ports in the firewall for the server";
     };
+
+    experimental = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Whether to use the experimental branch or not."
+    }
   };
 
   config = mkIf cfg.enable {
@@ -47,6 +53,7 @@ in
       let
         steamcmd = "${cfg.steamcmdPackage}/bin/steamcmd";
         steam-run = "${cfg.steamrunPackage}/bin/steam-run";
+        beta-branch = if cfg.experimental true then "-beta experimental " else ""
       in {
         description = "Satisfactory Dedicated Server";
         wantedBy = [ "multi-user.target" ];
@@ -62,7 +69,7 @@ in
         };
 
         preStart = ''
-          ${steamcmd} +force_install_dir "${cfg.dataDir}" +login anonymous +app_update 1690800 validate +quit
+          ${steamcmd} +force_install_dir "${cfg.dataDir}" +login anonymous +app_update 1690800 ${beta-branch}validate +quit
         '';
       };
 

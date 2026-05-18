@@ -173,22 +173,7 @@
           force = true;
         };
 
-        extensions = {
-          force = true;
-          packages = with pkgs.nur.repos.rycee.firefox-addons; [
-            ublock-origin
-            sponsorblock
-          ];
-          settings."uBlock0@raymondhill.net".settings = {
-            selectedFilterLists = [
-              "ublock-filters"
-              "ublock-badware"
-              "ublock-privacy"
-              "ublock-unbreak"
-              "ublock-quick-fixes"
-            ];
-          };
-        };
+        extensions.force = false;
       };
     };
   };

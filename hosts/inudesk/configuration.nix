@@ -235,6 +235,8 @@ in
     freetype
 
     nwg-look
+    gtk3.dev
+    gtk4.dev
   ];
 
   # Ladybird Browser

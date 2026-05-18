@@ -98,6 +98,22 @@
     ];
   };
 
+  # Cursor
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.posy-cursors;
+    name = "Posy_Cursor_Black";
+    size = 24;
+  };
+
+  gtk = {
+    enable = true;
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+  };
+
   # Hypridle
   services.hypridle = {
     enable = true;

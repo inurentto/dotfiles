@@ -134,6 +134,9 @@ in
     enable = true;
     gamescopeSession.enable = true;
     protontricks.enable = true;
+    extraPackages = with pkgs; [
+      posy-cursors
+    ];
   };
 
   # OBS Studio
@@ -230,8 +233,6 @@ in
     libffi
 
     freetype
-
-    papirus-icon-theme
 
     nwg-look
   ];

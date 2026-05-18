@@ -43,8 +43,8 @@ in
     experimental = mkOption {
       type = types.bool;
       default = false;
-      description = "Whether to use the experimental branch or not."
-    }
+      description = "Whether to use the experimental branch or not.";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -53,7 +53,7 @@ in
       let
         steamcmd = "${cfg.steamcmdPackage}/bin/steamcmd";
         steam-run = "${cfg.steamrunPackage}/bin/steam-run";
-        beta-branch = if cfg.experimental true then "-beta experimental " else ""
+        beta-branch = if cfg.experimental true then "-beta experimental " else "";
       in {
         description = "Satisfactory Dedicated Server";
         wantedBy = [ "multi-user.target" ];

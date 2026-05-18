@@ -13,7 +13,7 @@
     };
     awww.url = "git+https://codeberg.org/LGFae/awww";
     quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell?ref=master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {

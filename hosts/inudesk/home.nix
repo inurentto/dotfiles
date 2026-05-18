@@ -9,6 +9,9 @@
   home.homeDirectory = "/home/inurentto";
   home.stateVersion = "25.11";
 
+  # Nixpkgs
+  nixpkgs.config.allowUnfree = true;
+
   # Packages (Separate into modules)
   home.packages = with pkgs; [
     inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default

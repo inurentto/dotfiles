@@ -53,7 +53,7 @@ in
       let
         steamcmd = "${cfg.steamcmdPackage}/bin/steamcmd";
         steam-run = "${cfg.steamrunPackage}/bin/steam-run";
-        beta-branch = if cfg.experimental true then "-beta experimental " else "";
+        beta-branch = if cfg.experimental then "-beta experimental " else "";
       in {
         description = "Satisfactory Dedicated Server";
         wantedBy = [ "multi-user.target" ];

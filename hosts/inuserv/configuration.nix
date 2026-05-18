@@ -20,5 +20,6 @@
   services.satisfactory-server = {
     enable = true;
     openFirewall = true;
+    experimental = true;
   };
 }

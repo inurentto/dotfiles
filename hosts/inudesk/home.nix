@@ -218,6 +218,12 @@
         "github.copilot.enable.*" = false;
 
         "svelte.enable-ts-plugin" = true;
+
+        "workbench.editorAssociations" = {
+          "*.copilotmd" = "vscode.markdown.preview.editor";
+          "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc" = "default";
+          "*.qrc" = "qt-core.qrcEditor";
+        };
       };
     };
   };

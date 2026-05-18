@@ -3,7 +3,7 @@
     enable = lib.mkEnableOption "Enable Stylix";
     base16Scheme = lib.mkOption {
       type = lib.types.str;
-      default = "ayu-dark";
+      default = "catppuccin-mocha";
       description = "https://tinted-theming.github.io/tinted-gallery/";
     };
     image = lib.mkOption {

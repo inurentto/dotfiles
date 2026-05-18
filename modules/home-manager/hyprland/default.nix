@@ -122,10 +122,10 @@
         };
 
         general = {
-          gaps_in = 10;
-          gaps_out = 20;
+          gaps_in = 8;
+          gaps_out = 16;
 
-          border_size = 2;
+          border_size = 1;
 
           resize_on_border = false;
 
@@ -135,8 +135,8 @@
         };
 
         decoration = {
-          rounding = 0;
-          rounding_power = 0;
+          rounding = 16;
+          rounding_power = 2;
 
           active_opacity = 1;
           inactive_opacity = 1;

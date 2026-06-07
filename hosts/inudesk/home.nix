@@ -75,6 +75,8 @@
     craftos-pc
 
     shaderc
+
+    deadlock-mod-manager
   ];
 
   # Hyprland

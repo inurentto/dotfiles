@@ -45,8 +45,6 @@
     sourcegit
     jetbrains-toolbox
 
-    jdk21
-
     qtcreator
     kdePackages.qt6ct
     nwg-look

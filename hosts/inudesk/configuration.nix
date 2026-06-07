@@ -183,6 +183,9 @@ in
     dotnet-sdk_9
     dotnet-sdk_10
 
+    jdk21
+    jdk25
+
     wget
     zenity
 

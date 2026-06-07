@@ -241,8 +241,8 @@
       vencord.enable = false;
       equicord.enable = true;
     };
-    vesktop.enable = true;
-    equibop.enable = true;
+    vesktop.enable = false;
+    equibop.enable = false;
 
     config = {
       autoUpdate = false;

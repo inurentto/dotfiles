@@ -21,5 +21,6 @@
     enable = true;
     openFirewall = true;
     experimental = true;
+    launchOptions = "-ini:Game:[/Script/Engine.GameSession]:MaxPlayers=8";
   };
 }

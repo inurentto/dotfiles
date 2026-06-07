@@ -73,6 +73,8 @@
     kdePackages.isoimagewriter
 
     craftos-pc
+
+    shaderc
   ];
 
   # Hyprland

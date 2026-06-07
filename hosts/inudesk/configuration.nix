@@ -11,9 +11,6 @@ in
 
   # Nixpkgs
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [
-    inputs.rust-overlay.overlays.default
-  ];
 
   # Boot
   boot = {
@@ -219,10 +216,8 @@ in
     xorg.libXinerama
     xorg.libXext
 
-    # rust-analyzer
-    # rust-bin.stable.latest.default.override {
-    #   extensions = [ "rust-src" ];
-    # }
+    cargo
+    rustc
 
     v4l-utils
 

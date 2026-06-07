@@ -177,7 +177,7 @@
     inurentto = {
       isNormalUser = true;
       description = "inurentto";
-      extraGroups = [ "networkmanager" "wheel" "input" ];
+      extraGroups = [ "networkmanager" "wheel" "input" "satisfactory" ];
     };
   };
 

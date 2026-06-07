@@ -71,6 +71,8 @@
     vpkedit
 
     kdePackages.isoimagewriter
+
+    craftos-pc
   ];
 
   # Hyprland

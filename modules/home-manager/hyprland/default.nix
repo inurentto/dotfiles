@@ -38,7 +38,7 @@
           "$mainMod, E, exec, $fileManager"
           "$mainMod, V, togglefloating,"
           "$mainMod, F, fullscreen,"
-          "$mainMod, RETURN, exec, $launcher"
+          "$mainMod, TAB, exec, $launcher"
           "$mainMod, B, exec, $browser"
 
           # Screenshot & color pick

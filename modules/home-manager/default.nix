@@ -5,7 +5,6 @@
     inputs.base16.homeManagerModule
     inputs.spicetify-nix.homeManagerModules.spicetify
     inputs.nixcord.homeModules.nixcord
-    inputs.nvf.homeManagerModules.default
     ./hyprland
     ./stylix
   ];

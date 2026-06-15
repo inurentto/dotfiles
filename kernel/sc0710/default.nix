@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
     owner = "Nakildias";
     repo = "sc0710";
     rev = "main";
-    sha256 = "sha256-Gc7sPwW1JZu7+DQy6qkdKUWvkXodtGZqCFC6YiADk/0=";
+    sha256 = "sha256-7qt5hpGDE4iFfuLRA3S7xyoSGLYAlQY4cWJpkDDWsVA=";
   };
 
   nativeBuildInputs = kernel.moduleBuildDependencies;

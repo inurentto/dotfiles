@@ -11,6 +11,9 @@ in
 
   # Nixpkgs
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10" # Allowed for Discord (Version is EOL)
+  ];
 
   # Boot
   boot = {
@@ -71,17 +74,17 @@ in
       libGL
       vulkan-loader
 
-      xorg.libX11
-      xorg.libXcursor
-      xorg.libXext
-      xorg.libXfixes
-      xorg.libXi
-      xorg.libXrandr
-      xorg.libXrender
-      xorg.libXtst
-      xorg.libXinerama
-      xorg.libICE
-      xorg.libSM
+      libx11
+      libxcursor
+      libxext
+      libxfixes
+      libxi
+      libxrandr
+      libxrender
+      libxtst
+      libxinerama
+      libice
+      libsm
       libxkbcommon
       libpulseaudio
       libxft
@@ -113,7 +116,7 @@ in
 
   # Thunar
   programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [
+  programs.thunar.plugins = with pkgs; [
     thunar-archive-plugin
     thunar-vcs-plugin
     thunar-volman
@@ -202,7 +205,7 @@ in
 
     piper
 
-    nodePackages.nodejs
+    nodejs
 
     gcc
     gdb
@@ -213,11 +216,11 @@ in
     wayland
     wayland-protocols
     libxkbcommon
-    xorg.libX11
-    xorg.libXcursor
-    xorg.libXrandr
-    xorg.libXinerama
-    xorg.libXext
+    libx11
+    libxcursor
+    libxrandr
+    libxinerama
+    libxext
 
     cargo
     rustc

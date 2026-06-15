@@ -11,6 +11,9 @@
 
   # Nixpkgs
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10" # Allowed for Discord (Version is EOL)
+  ];
 
   # Packages (Separate into modules)
   home.packages = with pkgs; [
@@ -494,78 +497,6 @@
         #supportHelper.enable = true;
         webContextMenus.enable = true;
       };
-    };
-  };
-
-  # Neovim
-  programs.nvf = {
-    enable = true;
-    settings = {
-      vim.viAlias = false;
-      vim.vimAlias = false;
-
-      vim.lsp = {
-        enable = true;
-        lspSignature.enable = false;
-      };
-      vim.languages = {
-        enableFormat = true;
-        enableTreesitter = true;
-        enableExtraDiagnostics = true;
-
-        clang.enable = true;
-        csharp.enable = true;
-        qml.enable = true;
-        svelte.enable = true;
-      };
-
-      vim.filetree = {
-        neo-tree = {
-          enable = true;
-        };
-      };
-      vim.autocomplete = {
-        nvim-cmp.enable = false;
-        blink-cmp.enable = true;
-      };
-
-      vim.visuals = {
-        nvim-scrollbar.enable = true;
-      };
-
-      vim.minimap = {
-        codewindow.enable = true;
-      };
-
-      vim.dashboard = {
-        alpha.enable = true;
-      };
-
-      vim.projects = {
-        project-nvim.enable = true;
-      };
-
-      vim.utility = {
-        icon-picker.enable = true;
-        surround.enable = true;
-        multicursors.enable = true;
-        smart-splits.enable = true;
-        undotree.enable = true;
-      };
-
-      vim.ui = {
-        breadcrumbs = {
-          enable = true;
-          navbuddy.enable = true;
-        };
-
-      };
-
-      vim.lazy = {
-        enable = true;
-        plugins = {};
-      };
-      vim.extraPlugins = {};
     };
   };
 

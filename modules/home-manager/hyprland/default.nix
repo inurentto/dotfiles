@@ -20,6 +20,8 @@
       systemd.enable = true;
       systemd.variables = [ "--all" ];
 
+      configType = "hyprlang";
+
       settings = {
         "$terminal" = "alacritty";
         "$fileManager" = "thunar";
@@ -78,7 +80,7 @@
           "$mainMod SHIFT, 9, movetoworkspace, 9"
           "$mainMod SHIFT, 0, movetoworkspace, 10"
 
-          "$mainMod, J, togglesplit"
+          "$mainMod, J, layoutmsg, togglesplit"
         ];
 
         bindm = [
@@ -198,60 +200,59 @@
 
         windowrule = [
           # Ignore maximize requests from apps. You'll probably like this.
-          "suppressevent maximize, class:.*"
+          "suppress_event maximize, match:class .*"
 
           # Fix some dragging issues with XWayland
-          "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+          "no_focus on,match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false"
 
           # Quickshell
-          "float,class:^(quickshell)$"
-          #"noanim,class:^(quickshell)$"
-          "noblur,class:^(quickshell)$"
+          "float on, match:class ^(quickshell)$"
+          "no_blur on, match:class ^(quickshell)$"
 
           # Rofi fixes
-          "center,initialClass:Rofi"
-          "stayfocused,initialClass:Rofi"
-          "opaque,initialClass:Rofi"
-          "noblur,initialClass:Rofi"
+          "center on, match:initial_class Rofi"
+          "stay_focused on, match:initial_class Rofi"
+          "opaque on, match:initial_class Rofi"
+          "no_blur on, match:initial_class Rofi"
 
           # Thunar fixes
-          "float,initialClass:Thunar,title:^(?!.*Thunar$).*"
+          "float on, match:initial_class Thunar, match:title ^(?!.*Thunar$).*"
 
           # Godot fixes
-          "tile,initialClass:Godot,initialTitle:Godot"
-          "float,initialClass:Godot,title:()"
-          "stayfocused,initialClass:Godot,title:()"
-          "rounding 0,initialClass:Godot,title:()"
-          "bordersize 0,initialClass:Godot,title:()"
-          "noanim,initialClass:Godot,title:()"
-          "nofocus,initialClass:Godot,title:()"
-          "decorate off,initialTitle:Godot,title:^(DEBUG)$"
+          "tile on, match:initial_class Godot, match:initial_title Godot"
+          "float on, match:initial_class Godot, match:title ()"
+          "stay_focused on, match:initial_class Godot, match:title ()"
+          "rounding 0, match:initial_class Godot, match:title ()"
+          "border_size 0, match:initial_class Godot, match:title ()"
+          "no_anim on, match:initial_class Godot, match:title ()"
+          "no_focus on, match:initial_class Godot, match:title ()"
+          "decorate off, match:initial_title Godot, match:title ^(DEBUG)$"
 
-          "stayfocused,initialClass:Godot,title:Create New Node"
-          "stayfocused,initialClass:Godot,title:Create Folder"
-          "stayfocused,initialClass:Godot,title:Create Script"
-          "stayfocused,initialClass:Godot,title:Create New Resource"
-          "stayfocused,initialClass:Godot,title:Create New Scene"
-          "stayfocused,initialClass:Godot,title:^(Change Type of)" # this doesn't work for some reason :)
+          "stay_focused on, match:initial_class Godot, match:title Create New Node"
+          "stay_focused on, match:initial_class Godot, match:title Create Folder"
+          "stay_focused on, match:initial_class Godot, match:title Create Script"
+          "stay_focused on, match:initial_class Godot, match:title Create New Resource"
+          "stay_focused on, match:initial_class Godot, match:title Create New Scene"
+          "stay_focused on, match:initial_class Godot, match:title ^(Change Type of)" # this doesn't work for some reason :)
 
           # JetBrains
           # Prevent tooltips from taking focus (always have a title of `win.<id>`)
-          "noinitialfocus, class:^(.*jetbrains.*)$, title:^(win.*)$"
+          "no_initial_focus on, match:class ^(.*jetbrains.*)$,  match:title ^(win.*)$"
           # Make "Go to file" and other dialogs always focused when open
-          "stayfocused, class:^(.*jetbrains.*)$, title:^$, floating:1"
+          "stay_focused on, match:class ^(.*jetbrains.*)$,  match:title ^$, match:float true"
           # fix tab dragging (always have a single space character as their title)
-          "noinitialfocus, class:^(.*jetbrains.*)$, title:^\\s$"
+          "no_initial_focus on, match:class ^(.*jetbrains.*)$,  match:title ^\\s$"
           # Tile new tabs automatically
-          "tile, class:^(jetbrains-*), floating:0"
+          "tile on, match:class ^(jetbrains-*), match:float false"
 
           # Unity
           # Move popups to cursor
-          "move cursor, class:^(Unity)$, title:^(Color)$"
-          "move cursor, class:^(Unity)$, title:^(HDR Color)$"
+          "move (cursor_x-(window_w*0.5)) (cursor_y-(window_h*0.5)), match:class ^(Unity)$,  match:title ^(Color)$"
+          "move (cursor_x-(window_w*0.5)) (cursor_y-(window_h*0.5)), match:class ^(Unity)$,  match:title ^(HDR Color)$"
         ];
 
         layerrule = [
-          "noanim,^(quickshell)$"
+          "no_anim on, match:namespace quickshell"
         ];
       };
     };

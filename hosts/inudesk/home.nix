@@ -77,6 +77,8 @@
     shaderc
 
     deadlock-mod-manager
+
+    hexedit
   ];
 
   # Hyprland

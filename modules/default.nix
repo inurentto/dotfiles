@@ -1,208 +1,212 @@
 { config, pkgs, inputs, lib, ... }: {
-  # Remove unecessary preinstalled packages
-  environment.defaultPackages = [ ];
-  services.xserver.excludePackages = [ pkgs.xterm ];
+	# Remove unecessary preinstalled packages
+	environment.defaultPackages = [ ];
+	services.xserver.excludePackages = [ pkgs.xterm ];
 
-  # Package Overrides
-  nixpkgs.config.packageOverrides = pkgs: {
-    nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/main.tar.gz") {
-      inherit pkgs;
-    };
-  };
+	# Module Imports
+	imports = [
+		inputs.sc0710.nixosModules.default
 
-  # Module Imports
-  imports = [
-    inputs.sc0710.nixosModules.default
+		./dolphin.nix
+		./devtools.nix
+		./piper.nix
+		./steamcmd.nix
+		./satisfactory.nix
+	];
 
-    ./steamcmd
-    ./satisfactory
-  ];
+	# Packages
+	environment.systemPackages = with pkgs; [
+		sbctl
 
-  # Packages
-  environment.systemPackages = with pkgs; [
-    zip
-    unzip
+		zip
+		unzip
 
-    wl-clipboard
+		pax-utils
+		nix-index
 
-    gh
-    
-    appimage-run
+		wl-clipboard
 
-    pulseaudio
+		gh
+		codeberg-cli
 
-    efibootmgr
+		appimage-run
 
-    lm_sensors
-  ];
-  
-  # Nix
-  nix = {
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      auto-optimise-store = true;
-      allowed-users = [ "inurentto" ];
-    };
+		pulseaudio
+		pipewire.jack
 
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-  };
-  programs.nix-ld.enable = true;
+		efibootmgr
 
-  # Boot
-  boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    tmp.cleanOnBoot = true;
-    loader = {
-      limine.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-  };
+		lm_sensors
+	];
 
-  # Wayland
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
+	# Nix
+	nix = {
+		settings = {
+			experimental-features = [ "nix-command" "flakes" ];
+			auto-optimise-store = true;
+			allowed-users = [ "inurentto" ];
+		};
 
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-      kdePackages.xdg-desktop-portal-kde
-    ];
+		gc = {
+			automatic = true;
+			dates = "weekly";
+			options = "--delete-older-than 7d";
+		};
+	};
+	programs.nix-ld.enable = true;
 
-    config = {
-      common = {
-        default = "hyprland;gtk";
-      };
+	# Boot
+	boot = {
+		kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+		tmp.cleanOnBoot = true;
+		loader = {
+			limine.enable = true;
+			efi.canTouchEfiVariables = true;
+		};
+	};
 
-      kde = {
-        default = "kde";
-      };
+	# Terminal Shell
+	programs.fish.enable = true;
 
-      "org.freedesktop.impl.portal.FileChooser" = {
-        default = "kde";
-      };
-    };
-  };
+	# Wayland
+	xdg.portal = {
+		enable = true;
+		xdgOpenUsePortal = true;
 
-  # X11
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "se";
-      variant = "";
-    };
-  };
+		extraPortals = with pkgs; [
+			xdg-desktop-portal-hyprland
+			xdg-desktop-portal-gtk
+		];
 
-  # Environment Variables
-  environment.variables = {
+		config = {
+			common = {
+				default = "hyprland;gtk";
+			};
 
-  };
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    QT_QPA_PLATFORMTHEME = "qt6ct";
-  };
+			kde = {
+				default = "kde";
+			};
 
-  # Keyring
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
+			"org.freedesktop.impl.portal.FileChooser" = {
+				default = "kde";
+			};
+		};
+	};
 
-  # Networking
-  networking = {
-    networkmanager.enable = true;
-    firewall = {
-      allowedTCPPorts = [];
-      allowedUDPPorts = [];
-    };
-  };
+	# X11
+	services.xserver = {
+		enable = true;
+		xkb = {
+			layout = "se";
+			variant = "";
+		};
+	};
 
-  # Bluetooth
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings = {
-      General = {
-        Experimental = true;
-        FastConnectable = true;
-      };
-      Policy = {
-        AutoEnable = true;
-      };
-    };
-  };
+	# Environment Variables
+	environment.variables = {
 
-  # Sound
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
+	};
+	environment.sessionVariables = {
+		NIXOS_OZONE_WL = "1";
+		QT_QPA_PLATFORMTHEME = "qt6ct";
+	};
 
-  # Power Profiles
-  services.power-profiles-daemon.enable = true;
+	# Keyring & Security
+	services.gnome.gnome-keyring.enable = true;
+	security.pam.services.sddm.enableGnomeKeyring = true;
+	programs.gnupg.agent = {
+		enable = true;
+		enableSSHSupport = true;
+		enableBrowserSocket = true;
+	};
 
-  # Printing
-  services.printing.enable = true;
+	# Networking
+	networking = {
+		networkmanager.enable = true;
+		firewall = {
+			allowedTCPPorts = [];
+			allowedUDPPorts = [];
+		};
+	};
 
-  # Locales
-  time.timeZone = "Europe/Stockholm";
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    extraLocaleSettings = {
-      LC_ADDRESS = "sv_SE.UTF-8";
-      LC_IDENTIFICATION = "sv_SE.UTF-8";
-      LC_MEASUREMENT = "sv_SE.UTF-8";
-      LC_MONETARY = "sv_SE.UTF-8";
-      LC_NAME = "sv_SE.UTF-8";
-      LC_NUMERIC = "sv_SE.UTF-8";
-      LC_PAPER = "sv_SE.UTF-8";
-      LC_TELEPHONE = "sv_SE.UTF-8";
-      LC_TIME = "sv_SE.UTF-8";
-    };
-  };
-  console.keyMap = "sv-latin1";
+	# Bluetooth
+	hardware.bluetooth = {
+		enable = true;
+		powerOnBoot = true;
+		settings = {
+			General = {
+				Experimental = true;
+				FastConnectable = true;
+			};
+			Policy = {
+				AutoEnable = true;
+			};
+		};
+	};
 
-  # Fonts
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-  ];
+	# Sound
+	services.pulseaudio.enable = false;
+	services.pipewire = {
+		enable = true;
+		pulse.enable = true;
+		alsa.enable = true;
+		alsa.support32Bit = true;
+		jack.enable = true;
+	};
+	security.rtkit.enable = true;
 
-  # Users
-  users.users = {
-    inurentto = {
-      isNormalUser = true;
-      description = "inurentto";
-      extraGroups = [ "networkmanager" "wheel" "input" "satisfactory" ];
-    };
-  };
+	# Power Profiles
+	services.power-profiles-daemon.enable = true;
 
-  # Direnv
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
+	# Printing
+	services.printing.enable = true;
 
-  # Git
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
-  };
+	# Locales
+	time.timeZone = "Europe/Stockholm";
+	i18n = {
+		defaultLocale = "en_US.UTF-8";
+		extraLocaleSettings = {
+			LC_ADDRESS = "sv_SE.UTF-8";
+			LC_IDENTIFICATION = "sv_SE.UTF-8";
+			LC_MEASUREMENT = "sv_SE.UTF-8";
+			LC_MONETARY = "sv_SE.UTF-8";
+			LC_NAME = "sv_SE.UTF-8";
+			LC_NUMERIC = "sv_SE.UTF-8";
+			LC_PAPER = "sv_SE.UTF-8";
+			LC_TELEPHONE = "sv_SE.UTF-8";
+			LC_TIME = "sv_SE.UTF-8";
+		};
+	};
+	console.keyMap = "sv-latin1";
 
-  # VPN
-  services.mullvad-vpn.enable = true;
+	# Users
+	users.users = {
+		inurentto = {
+			isNormalUser = true;
+			description = "inurentto";
+			extraGroups = [ "networkmanager" "wheel" "input" ];
+		};
+	};
 
-  # Capture Card Driver
-  hardware.sc0710 = {
-    enable = true;
-    enableFirmware = true;
-  };
+	# Fonts
+	fonts.packages = with pkgs; [
+		nerd-fonts.jetbrains-mono
+		nerd-fonts.profont
+		inter
+	];
 
-  # State Version
-  system.stateVersion = "25.11";
+	# Direnv
+	programs.direnv = {
+		enable = true;
+		nix-direnv.enable = true;
+	};
+
+	# Git
+	programs.git = {
+		enable = true;
+		lfs.enable = true;
+	};
+
+	# VPN
+	services.mullvad-vpn.enable = true;
 }

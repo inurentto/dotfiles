@@ -4,8 +4,6 @@
     ../../modules/home-manager
   ];
 
-  # Home Manager
-  home.username = "inurentto";
-  home.homeDirectory = "/home/inurentto";
+  # State Version
   home.stateVersion = "25.11";
 }

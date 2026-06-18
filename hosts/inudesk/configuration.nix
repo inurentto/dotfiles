@@ -1,250 +1,288 @@
 { config, pkgs, inputs, lib, ... }: {
-  # Module Imports
-  imports = [
-    ../../modules
-  ];
+	# Module Imports
+	imports = [
+		../../modules
+	];
 
-  # Nixpkgs
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-39.8.10" # Allowed for Discord (Version is EOL)
-  ];
+	# Nixpkgs
+	nixpkgs.overlays = [ inputs.dolphin-overlay.overlays.default ];
+	nixpkgs.config.allowUnfree = true;
+	nixpkgs.config.permittedInsecurePackages = [
+		"electron-39.8.10" # Allowed for Discord (Version is EOL)
+	];
 
-  # Boot
-  boot = {};
+	# Boot
+	boot = {
+		kernelPackages = pkgs.linuxPackages_7_1; # Temporary downgrade from latest (Nvidia kernel modules don't compile)
+		loader.limine.secureBoot.enable = true;
+	};
 
-  # Display Manager
-  services.displayManager.sddm = {
+	# Display Manager
+	services.displayManager.sddm = {
+		enable = true;
+		wayland.enable = true;
+	};
+
+	# Auto Login
+	services.displayManager.autoLogin = {
+		enable = true;
+		user = "inurentto";
+	};
+
+	# Graphics
+	services.xserver.videoDrivers = ["nvidia"];
+	hardware = {
+		graphics = {
+			enable = true;
+			extraPackages = with pkgs; [
+				cudaPackages.cuda_opencl
+			];
+		};
+		nvidia = {
+			modesetting.enable = true;
+			powerManagement.enable = false;
+			powerManagement.finegrained = false;
+			open = true;
+			nvidiaSettings = false;
+
+			package = config.boot.kernelPackages.nvidiaPackages.stable;
+		};
+		sc0710.enable = true;
+	};
+
+	# Environment Variables
+	environment.sessionVariables = {
+		LIBVA_DRIVER_NAME = "nvidia";
+		__GLX_VENDOR_LIBRARY_NAME = "nvidia";
+		VST_PATH = "/run/current-system/sw/lib/vst";
+		VST3_PATH = "/run/current-system/sw/lib/vst3";
+		LV2_PATH = "/run/current-system/sw/lib/lv2";
+
+		XRT_COMPOSITOR_FORCE_WAYLAND_DIRECT="1";
+
+		XDG_CACHE_HOME = "$HOME/.cache";
+		XDG_CONFIG_HOME = "$HOME/.config";
+		XDG_DATA_HOME = "$HOME/.local/share";
+		XDG_STATE_HOME = "$HOME/.local/state";
+
+		XDG_DESKTOP_DIR="$HOME/Desktop";
+		XDG_DOWNLOAD_DIR="$HOME/Downloads";
+		XDG_PROJECTS_DIR="$HOME/Projects";
+		XDG_PICTURES_DIR="$HOME/Pictures";
+		XDG_VIDEOS_DIR="$HOME/Videos";
+		XDG_SOUNDS_DIR="$HOME/Sounds";
+		XDG_MUSIC_DIR="$HOME/Music";
+		XDG_DOCUMENTS_DIR="$HOME/Documents";
+		XDG_PUBLICSHARE_DIR="$HOME/Public";
+		XDG_TEMPLATES_DIR="$HOME/Templates";
+
+		XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots";
+
+	};
+	
+	# UPower
+	services.upower = {
+		enable = true;
+	};
+
+	# Flatpak
+	services.flatpak.enable = true;
+
+	# SSH
+	programs.ssh = {
+    extraConfig = ''
+      Host codeberg.org
+        HostName codeberg.org
+        User git
+        IdentityFile ~/.ssh/id_ed25519_codeberg
+
+      Host github.com
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/id_ed25519_github
+    '';
+  };
+
+	# Hyprland
+	programs.hyprland = {
+		enable = true;
+		withUWSM = true;
+	};
+
+	# File Manager
+	programs.dolphin = {
+		enable = true;
+		plugins = {
+			archives = true;
+			network = true;
+			fuse = true;
+			extras = true;
+			admin = true;
+		};
+		filelight = true;
+	};
+
+	# Stream Controller
+	programs.streamcontroller.enable = true;
+
+	# Steam
+	programs.steam = {
+		enable = true;
+		gamescopeSession.enable = true;
+		protontricks.enable = true;
+		extraPackages = with pkgs; [
+			posy-cursors
+		];
+	};
+
+	# OBS Studio
+	programs.obs-studio = {
+		enable = true;
+		enableVirtualCamera = true;
+		package = pkgs.obs-studio.override {
+			cudaSupport = true;
+		};
+	};
+
+	# Gamescope
+	programs.gamescope.enable = true;
+
+	# OpenRGB
+	services.hardware.openrgb = {
+		enable = true;
+		package = pkgs.openrgb-with-all-plugins;
+		motherboard = "intel";
+	};
+
+	# Piper
+	programs.piper.enable = true;
+
+	# System Packages (Separate into modules)
+	environment.systemPackages = with pkgs; [
+		# Icon Theme
+		papirus-icon-theme
+
+		# GNOME app config editor
+		dconf-editor
+
+		# Image Viewer
+		kdePackages.gwenview
+
+		# Video & Audio Player
+		vlc
+
+		# Wine
+		wineWow64Packages.wayland
+		winetricks
+
+		# Audio
+		qpwgraph
+		carla
+		rnnoise-plugin
+		lsp-plugins
+
+		# Godot
+		inputs.godots.packages.${pkgs.stdenv.hostPlatform.system}.default
+		godotPackages_4_7.godot
+
+		# Proton Mail
+		protonmail-desktop
+
+		# Partition Manager
+		kdePackages.partitionmanager
+
+		# Qt Shader Tools
+		qt6.qtshadertools
+
+		# Jetbrains
+		jetbrains-toolbox
+
+		# Unity
+		unityhub
+	];
+
+	# I DON'T WANT THIS HERE
+	programs.nix-ld = {
     enable = true;
-    wayland.enable = true;
-  };
+		libraries = with pkgs; [
+			# alsa-lib
+			# libGL
+			# vulkan-loader
 
-  # Auto Login
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "inurentto";
-  };
+			# libx11
+			# libxcursor
+			# libxext
+			# libxfixes
+			# libxi
+			# libxrandr
+			# libxrender
+			# libxtst
+			# libxinerama
+			# libice
+			# libsm
+			# libxkbcommon
+			# libpulseaudio
+			# libxft
+			# icu
 
-  # Graphics
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware = {
-    graphics.enable = true;
-    nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = false;
-      powerManagement.finegrained = false;
-      open = false;
-      nvidiaSettings = false;
+			# wayland
+			# libdecor
 
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
-  };
+			# fontconfig
+			# fontconfig.lib
+		];
+	};
 
-  # Environment Variables
-  environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = "nvidia";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    VST_PATH = "/run/current-system/sw/lib/vst";
-    VST3_PATH = "/run/current-system/sw/lib/vst3";
-    LV2_PATH = "/run/current-system/sw/lib/lv2";
+	# Devtools
+	programs.devtools = {
+		enable = true;
+		java = {
+			enable21 = true;
+			enable25 = true;
+		};
+		javascript = {
+			nodejs.enableLts = true;
+		};
+		c = {
+			clang.enable = true;
+			cmake = true;
+			ninja = true;
+		};
+		rust = {
+			enable = true;
+			cargo = true;
+		};
+		dotnet = {
+			enable8 = true;
+		};
+		godot = {
+			v4_6 = false;
+			v4_7 = false;
+		};
+		zig = {
+			enableLatest = true;
+		};
 
-    XRT_COMPOSITOR_FORCE_WAYLAND_DIRECT="1";
+		packaging = {
+			dpkg = true;
+		};
+	};
 
-    XDG_CACHE_HOME = "$HOME/.cache";
-    XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME = "$HOME/.local/share";
-    XDG_STATE_HOME = "$HOME/.local/state";
-    XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots";
-  };
+	# Ladybird Browser
+	programs.ladybird.enable = false;
 
-  # Shell Aliases
-  environment.shellAliases = {
-    change-wallpaper = "~/.scripts/change-wallpaper.sh";
-  };
+	# LocalSend
+	programs.localsend = {
+		enable = true;
+		openFirewall = true;
+	};
 
-  # Libraries (Separate into modules)
-  programs.nix-ld = {
-    enable = true;
-    libraries = with pkgs; [
-      alsa-lib
-      libGL
-      vulkan-loader
+	# Ente Auth
+	programs.ente-auth.enable = true;
 
-      libx11
-      libxcursor
-      libxext
-      libxfixes
-      libxi
-      libxrandr
-      libxrender
-      libxtst
-      libxinerama
-      libice
-      libsm
-      libxkbcommon
-      libpulseaudio
-      libxft
+	# SteamCMD
+	programs.steamcmd.enable = true;
 
-      wayland
-      libdecor
-
-      fontconfig
-      fontconfig.lib
-
-      dotnetCorePackages.sdk_9_0_1xx-bin
-      dotnet-sdk_9
-    ];
-  };
-
-  # UPower
-  services.upower = {
-    enable = true;
-  };
-
-  # Flatpak
-  services.flatpak.enable = true;
-
-  # Hyprland
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-  };
-
-  # Thunar
-  programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs; [
-    thunar-archive-plugin
-    thunar-vcs-plugin
-    thunar-volman
-    thunar-media-tags-plugin
-  ];
-  services.udisks2.enable = true;
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
-
-  # Stream controller
-  programs.streamcontroller.enable = true;
-  
-  # Steam
-  programs.steam = {
-    enable = true;
-    gamescopeSession.enable = true;
-    protontricks.enable = true;
-    extraPackages = with pkgs; [
-      posy-cursors
-    ];
-  };
-
-  # OBS Studio
-  programs.obs-studio = {
-    enable = true;
-    enableVirtualCamera = true;
-    package = pkgs.obs-studio.override {
-      cudaSupport = true;
-    };
-  };
-
-  # Gamescope
-  programs.gamescope.enable = true;
-
-  # OpenRGB
-  services.hardware.openrgb = { 
-    enable = true;
-    package = pkgs.openrgb-with-all-plugins;
-    motherboard = "intel";
-    server = { 
-      port = 6742;
-    };
-  };
-
-  # Ratbagd (Piper Dependency)
-  services.ratbagd.enable = true;
-
-  # Monado (Rift S VR Support)
-  services.monado = {
-    enable = false;
-    defaultRuntime = true;
-    highPriority = true;
-  };
-  systemd.user.services.monado.environment = {
-    STEAMVR_LH_ENABLE = "1";
-    XRT_COMPOSITOR_COMPUTE = "1";
-    IPC_EXIT_ON_DISCONNECT = "1";
-    WMR_HANDTRACKING = "0";
-  };
-
-  # System Packages (Separate into modules)
-  environment.systemPackages = with pkgs; [
-    openssl
-    pkg-config
-
-    dotnetCorePackages.sdk_9_0_1xx-bin
-    dotnet-sdk_9
-    dotnet-sdk_10
-
-    jdk21
-    jdk25
-
-    wget
-    zenity
-
-    wineWow64Packages.stable
-    winetricks
-
-    bottles
-
-    qpwgraph
-    carla
-    rnnoise-plugin
-    lsp-plugins
-    pavucontrol
-
-    piper
-
-    nodejs
-
-    gcc
-    gdb
-    cmake
-    gnumake
-    ninja
-
-    wayland
-    wayland-protocols
-    libxkbcommon
-    libx11
-    libxcursor
-    libxrandr
-    libxinerama
-    libxext
-
-    cargo
-    rustc
-
-    v4l-utils
-
-    jetbrains.clion
-    jetbrains.rust-rover
-
-    python3Minimal
-    libffi
-
-    freetype
-
-    nwg-look
-    gtk3.dev
-    gtk4.dev
-  ];
-
-  # Ladybird Browser
-  programs.ladybird.enable = true;
-
-  # LocalSend
-  programs.localsend = {
-    enable = true;
-    openFirewall = true;
-  };
-
-  # SteamCMD
-  programs.steamcmd.enable = true;
+	# State Version
+	system.stateVersion = "25.11";
 }

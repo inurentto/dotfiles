@@ -23,4 +23,7 @@
     experimental = true;
     launchOptions = "-ini:Game:[/Script/Engine.GameSession]:MaxPlayers=8";
   };
+
+  # State Version
+  system.stateVersion = "25.11";
 }

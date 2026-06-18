@@ -245,37 +245,26 @@
   # Nixcord
   programs.nixcord = {
     enable = true;
+
     discord = {
       enable = true;
-      vencord.enable = false;
-      equicord.enable = true;
+      vencord.enable = true;
     };
+
     vesktop.enable = false;
-    equibop.enable = false;
+
+    equibop = {
+      enable = false;
+      autoscroll.enable = true;
+    };
 
     config = {
-      autoUpdate = false;
-      autoUpdateNotification = false;
+      autoUpdate = true;
+      autoUpdateNotification = true;
+      frameless = true;
       useQuickCss = true;
-      themeLinks = [];
-      enabledThemes = [];
-      enableReactDevtools = false;
-      frameless = false;
-      transparent = false;
-      #winCtrlQ = false;
-      disableMinSize = false;
-      #winNativeTitleBar = false;
       plugins = {
-        #chatInputButtonAPI.enable = true;
-        #commandsAPI.enable = true;
-        #messageAccessoriesAPI.enable = true;
-        #messageEventsAPI.enable = true;
-        #messagePopoverAPI.enable = true;
-        #messageUpdaterAPI.enable = true;
-        #serverListAPI.enable = true;
-        #userSettingsAPI.enable = true;
         accountPanelServerProfile.enable = true;
-        alwaysAnimate.enable = true;
         alwaysExpandRoles.enable = true;
         anonymiseFileNames = {
           enable = true;
@@ -323,16 +312,15 @@
           eagerLoad = true;
         };
         betterUploadButton.enable = true;
+        blockKrisp.enable = true;
         biggerStreamPreview.enable = true;
         callTimer = {
           enable = true;
           format = "stopwatch";
         };
-        #clearURLs.enable = true;
         copyEmojiMarkdown.enable = true;
         copyFileContents.enable = true;
         copyStickerLinks.enable = true;
-        #copyUserURLs.enable = true;
         crashHandler.enable = true;
         disableCallIdle.enable = true;
         expressionCloner.enable = true;
@@ -342,7 +330,6 @@
         fixImagesQuality.enable = true;
         fixSpotifyEmbeds = {
           enable = true;
-          #volume = 10;
         };
         fixYoutubeEmbeds.enable = true;
         forceOwnerCrown.enable = true;
@@ -430,9 +417,6 @@
             enable = true;
             #spotify = true;
             #steam = true;
-            #epic = true;
-            #tidal = true;
-            #itunes = true;
         };
         pauseInvitesForever.enable = true;
         permissionFreeWill = {
@@ -457,12 +441,6 @@
             useDevIcon = "GREYSCALE";
             bgOpacity = 99.81949458483754;
         };
-        # spotifyControls = {
-        #     enable = true;
-        #     #hoverControls = true;
-        #     #useSpotifyUris = false;
-        #     #previousButtonRestartsTrack = true;
-        # };
         spotifyCrack = {
             enable = true;
             noSpotifyAutoPause = true;
@@ -484,18 +462,13 @@
         webScreenShareFixes.enable = true;
         whoReacted.enable = true;
         youtubeAdblock.enable = true;
-        #badgeAPI.enable = true;
-        # noTrack = {
-        #     enable = true;
-        #     disableAnalytics = true;
-        # };
-        # settings = {
-        #     enable = true;
-        #     settingsLocation = "aboveNitro";
-        # };
-        disableDeepLinks.enable = true;
-        #supportHelper.enable = true;
-        webContextMenus.enable = true;
+        noNitroUpsell.enable = true;
+        fakeNitro = {
+          enable = true;
+          enableEmojiBypass = false;
+          enableStickerBypass = false;
+        };
+        #equibopStreamFixes.enable = true; "doesn't exist" (replaces fakeNitro when it works)
       };
     };
   };

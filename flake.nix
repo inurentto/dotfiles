@@ -23,6 +23,7 @@
     base16.url = "github:SenchoPens/base16.nix";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     nixcord.url = "github:FlameFlag/nixcord";
+    sc0710.url = "github:Nakildias/sc0710";
   };
 
   outputs = { self, ... }@inputs:

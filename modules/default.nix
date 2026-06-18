@@ -12,6 +12,8 @@
 
   # Module Imports
   imports = [
+    inputs.sc0710.nixosModules.default
+
     ./steamcmd
     ./satisfactory
   ];
@@ -194,6 +196,12 @@
 
   # VPN
   services.mullvad-vpn.enable = true;
+
+  # Capture Card Driver
+  hardware.sc0710 = {
+    enable = true;
+    enableFirmware = true;
+  };
 
   # State Version
   system.stateVersion = "25.11";

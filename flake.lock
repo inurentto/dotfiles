@@ -366,6 +366,22 @@
     },
     "nixpkgs_4": {
       "locked": {
+        "lastModified": 1781577229,
+        "narHash": "sha256-lrp67w8AulE9Ks53n27I45ADSzbOCn4H+CNW1Ck8B+8=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "567a49d1913ce81ac6e9582e3553dd90a955875f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
         "lastModified": 1765472234,
         "narHash": "sha256-9VvC20PJPsleGMewwcWYKGzDIyjckEz8uWmT0vCDYK0=",
         "owner": "NixOS",
@@ -456,6 +472,7 @@
         "nixpkgs": "nixpkgs_3",
         "nur": "nur",
         "quickshell": "quickshell",
+        "sc0710": "sc0710",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix"
       }
@@ -481,9 +498,27 @@
         "type": "github"
       }
     },
+    "sc0710": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "lastModified": 1781644016,
+        "narHash": "sha256-ue/vDBkJV/1+73rhHZHfxX48/NOLrS+qD3LGlCqog9Y=",
+        "owner": "Nakildias",
+        "repo": "sc0710",
+        "rev": "8015681139833d9cbaff739a1085785f9389f6aa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Nakildias",
+        "repo": "sc0710",
+        "type": "github"
+      }
+    },
     "spicetify-nix": {
       "inputs": {
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_5",
         "systems": "systems"
       },
       "locked": {

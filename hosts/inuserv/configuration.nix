@@ -8,10 +8,17 @@
   nixpkgs.config.allowUnfree = true;
 
   # SSH
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      PasswordAuthentication = true;
+      AllowUsers = [ "myUser" ];
+    };
+  };
 
   # System Packages
-  environment.systemPackages = with pkgs; [];
+  # environment.systemPackages = with pkgs; [];
 
   # SteamCMD
   programs.steamcmd.enable = true;

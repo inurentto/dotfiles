@@ -24,6 +24,12 @@
     maxPlayers = 8;
   };
 
+  # Java
+  programs.devtools = {
+		enable = true;
+		java.enable25 = true;
+  };
+
   # State Version
   system.stateVersion = "25.11";
 }

@@ -77,7 +77,6 @@
 		XDG_TEMPLATES_DIR="$HOME/Templates";
 
 		XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots";
-
 	};
 	
 	# UPower
@@ -90,18 +89,18 @@
 
 	# SSH
 	programs.ssh = {
-    extraConfig = ''
-      Host codeberg.org
-        HostName codeberg.org
-        User git
-        IdentityFile ~/.ssh/id_ed25519_codeberg
+		extraConfig = ''
+		Host codeberg.org
+			HostName codeberg.org
+			User git
+			IdentityFile ~/.ssh/id_ed25519_codeberg
 
-      Host github.com
-        HostName github.com
-        User git
-        IdentityFile ~/.ssh/id_ed25519_github
-    '';
-  };
+		Host github.com
+			HostName github.com
+			User git
+			IdentityFile ~/.ssh/id_ed25519_github
+		'';
+	};
 
 	# Hyprland
 	programs.hyprland = {

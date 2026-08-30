@@ -18,10 +18,10 @@
 
   # Satisfactory
   services.satisfactory-server = {
-    enable = true;
+    enable = false;
     openFirewall = true;
-    experimental = true;
-    launchOptions = "-ini:Game:[/Script/Engine.GameSession]:MaxPlayers=8";
+    experimental = false;
+    maxPlayers = 8;
   };
 
   # State Version

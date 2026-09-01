@@ -5,11 +5,7 @@
 	];
 
 	# Nixpkgs
-	nixpkgs.overlays = [ inputs.dolphin-overlay.overlays.default ];
 	nixpkgs.config.allowUnfree = true;
-	nixpkgs.config.permittedInsecurePackages = [
-		"electron-39.8.10" # Allowed for Discord (Version is EOL)
-	];
 
 	# Boot
 	boot = {

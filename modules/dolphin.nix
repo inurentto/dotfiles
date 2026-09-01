@@ -22,6 +22,7 @@ in
 	};
 
 	config = lib.mkIf cfg.enable {
+		environment.etc."xdg/menus/applications.menu".source = "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
 		environment.systemPackages = with pkgs; [
 			cfg.package
 			kdePackages.dolphin-plugins

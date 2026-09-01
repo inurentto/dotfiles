@@ -40,6 +40,11 @@
 		java.enable25 = true;
   };
 
+  networking.firewall = {
+    allowedTCPPorts = [ 25565 ];
+    allowedUDPPorts = [ 25565 ];
+  }
+
   # State Version
   system.stateVersion = "25.11";
 }

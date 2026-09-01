@@ -13,9 +13,12 @@
     openFirewall = true;
     settings = {
       PasswordAuthentication = true;
-      AllowUsers = [ "myUser" ];
+      AllowUsers = [ "inurentto" ];
     };
   };
+
+  # Tmux
+  programs.tmux.enable = true;
 
   # System Packages
   # environment.systemPackages = with pkgs; [];

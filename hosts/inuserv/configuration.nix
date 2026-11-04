@@ -20,15 +20,12 @@
   # Tmux
   programs.tmux.enable = true;
 
-  # System Packages
-  # environment.systemPackages = with pkgs; [];
-
   # SteamCMD
   programs.steamcmd.enable = true;
 
   # Satisfactory
   services.satisfactory-server = {
-    enable = false;
+    enable = true;
     openFirewall = true;
     experimental = false;
     maxPlayers = 8;

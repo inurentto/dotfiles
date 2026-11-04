@@ -58,7 +58,7 @@ in
 				steamcmd = "${cfg.steamcmdPackage}/bin/steamcmd";
 				steam-run = "${cfg.steamrunPackage}/bin/steam-run";
 				beta-branch = if cfg.experimental then "-beta experimental " else "";
-				max-players-option = if cfg.maxPlayers != 4 then "-ini:Game:[/Script/Engine.GameSession]:MaxPlayers=${cfg.maxPlayers} " else ""; # Satisfactory has a default cap of 4 players, hence lanuch option is not always needed.
+				max-players-option = if cfg.maxPlayers != 4 then "-ini:Game:[/Script/Engine.GameSession]:MaxPlayers=${lib.toString cfg.maxPlayers} " else ""; # Satisfactory has a default cap of 4 players, hence lanuch option is not always needed.
 			in {
 				description = "Satisfactory Dedicated Server";
 				wantedBy = [ "multi-user.target" ];

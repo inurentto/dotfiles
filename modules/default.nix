@@ -8,35 +8,39 @@
 		inputs.sc0710.nixosModules.default
 
 		./dolphin.nix
-		./devtools.nix
-		./piper.nix
 		./steamcmd.nix
 		./satisfactory.nix
 	];
 
 	# Packages
 	environment.systemPackages = with pkgs; [
-		sbctl
-
-		zip
-		unzip
-
-		pax-utils
+		# Nix Package Index
 		nix-index
 
-		wl-clipboard
+		# Boot Order & Secure Boot Management
+		sbctl
+		efibootmgr
 
-		gh
-		codeberg-cli
+		# Hardware Sensors
+		lm_sensors
 
-		appimage-run
+		# ELF Binary Utils
+		pax-utils
 
+		# Audio
 		pulseaudio
 		pipewire.jack
 
-		efibootmgr
+		# Clipboard CLI
+		wl-clipboard
 
-		lm_sensors
+		# CLI File Compression
+		zip
+		unzip
+
+		# Git 
+		gh
+		codeberg-cli
 	];
 
 	# Nix
@@ -71,7 +75,7 @@
 	# Wayland
 	xdg.portal = {
 		enable = true;
-		xdgOpenUsePortal = true;
+		xdgOpenUsePortal = false;
 
 		extraPortals = with pkgs; [
 			xdg-desktop-portal-hyprland
@@ -81,14 +85,6 @@
 		config = {
 			common = {
 				default = "hyprland;gtk";
-			};
-
-			kde = {
-				default = "kde";
-			};
-
-			"org.freedesktop.impl.portal.FileChooser" = {
-				default = "kde";
 			};
 		};
 	};
@@ -103,12 +99,31 @@
 	};
 
 	# Environment Variables
-	environment.variables = {
-
-	};
 	environment.sessionVariables = {
 		NIXOS_OZONE_WL = "1";
 		QT_QPA_PLATFORMTHEME = "qt6ct";
+
+		VST_PATH = "/run/current-system/sw/lib/vst";
+		VST3_PATH = "/run/current-system/sw/lib/vst3";
+		LV2_PATH = "/run/current-system/sw/lib/lv2";
+
+		XDG_CACHE_HOME = "$HOME/.cache";
+		XDG_CONFIG_HOME = "$HOME/.config";
+		XDG_DATA_HOME = "$HOME/.local/share";
+		XDG_STATE_HOME = "$HOME/.local/state";
+
+		XDG_DESKTOP_DIR="$HOME/Desktop";
+		XDG_DOWNLOAD_DIR="$HOME/Downloads";
+		XDG_PROJECTS_DIR="$HOME/Projects";
+		XDG_PICTURES_DIR="$HOME/Pictures";
+		XDG_VIDEOS_DIR="$HOME/Videos";
+		XDG_SOUNDS_DIR="$HOME/Sounds";
+		XDG_MUSIC_DIR="$HOME/Music";
+		XDG_DOCUMENTS_DIR="$HOME/Documents";
+		XDG_PUBLICSHARE_DIR="$HOME/Public";
+		XDG_TEMPLATES_DIR="$HOME/Templates";
+
+		XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots";
 	};
 
 	# Keyring & Security
@@ -192,8 +207,15 @@
 	fonts.packages = with pkgs; [
 		nerd-fonts.jetbrains-mono
 		nerd-fonts.profont
+		rubik
 		inter
 	];
+
+	# App Images
+	programs.appimage = {
+		enable = true;
+		binfmt = true;
+	};
 
 	# Direnv
 	programs.direnv = {

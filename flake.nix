@@ -5,20 +5,25 @@
 		# Nix Packages & Config
 		nixpkgs.url = "nixpkgs/nixos-26.05";
 		home-manager = {
-			url = "github:nix-community/home-manager/release-26.05";
+			url = "github:nix-community/home-manager";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
 		# Kernel Modules
 		sc0710.url = "github:Nakildias/sc0710";
 
-		# Dolphin Fix
-		dolphin-overlay.url = "github:RZI3D/dolphin-overlay";
-
 		# Apps
-		spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 		nixcord.url = "github:4evy/nixcord";
-		godots.url = "path:./packages/godots";
+
+		# Shell
+		inu-shell.url = "github:inurentto/inushell-mirror";
+
+		# Hypyrland
+		hyprland.url = "github:hyprwm/Hyprland/v0.57.0";
+		hyprcapture = {
+			url = "github:gfhdhytghd/HyprCapture";
+			inputs.hyprland.follows = "hyprland";
+		};
 	};
 
 	outputs = { self, ... }@inputs:

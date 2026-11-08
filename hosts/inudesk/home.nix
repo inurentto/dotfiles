@@ -6,109 +6,107 @@
 
 	# Nixpkgs
 	nixpkgs.config.allowUnfree = true;
-	nixpkgs.config.permittedInsecurePackages = [
-		"electron-39.8.10" # Allowed for Discord (Version is EOL)
-	];
 
 	# Packages (Separate into modules)
 	home.packages = with pkgs; [
-		kdePackages.kdenlive
-		krita
+		# Disk Management
+		kdePackages.partitionmanager
+		kdePackages.isoimagewriter
+		
+		# Shell
+		inputs.inu-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
 
-		vulkan-tools
-
-		hyprpicker
-		grimblast
-
-		openssl
-		libargon2
-
-		bitwarden-cli
-		bitwarden-desktop
-
-		flatpak-xdg-utils
-		glib
-
-		filezilla
-
-		sourcegit
-
-		qtcreator
+		# Theming
+		pywalfox-native
+		papirus-icon-theme
 		kdePackages.qt6ct
 		nwg-look
 
-		libnotify
-		playerctl
+		# Font Management
+		font-manager
 
-		prismlauncher
+		# Mail
+		protonmail-desktop
+
+		# Music Players
+		# inputs.sone.packages.${pkgs.stdenv.hostPlatform.system}.default # poop ass vibe coded shit slop that takes up 100% processing power on ONE THREAD when i scroll on a FUCKING page (replace when tidal comes out with a native client, or a better one is available)
+		# tidal-hifi # this one just doesn't work and tries to like load the page multiple times a second and fails every time?
+
+		# Video & Image Editing
+		kdePackages.kdenlive
+		krita
+
+		# Password Management
+		bitwarden-cli
+		bitwarden-desktop
+
+		# Git Client
+		sourcegit
+
+		# Image Viewer
+		kdePackages.gwenview
+
+		# Video & Audio Player
+		vlc
+
+		# Godot
+		godotPackages_4_7.godot
+		godotPackages_4_7.godot-mono
+
+		# Unity
+		unityhub
+
+		# Game Modding
+		(prismlauncher.override {
+			additionalLibs = [
+				alsa-lib
+				libGL
+				vulkan-loader
+
+				libx11
+				libxcursor
+				libxext
+				libxfixes
+				libxi
+				libxrandr
+				libxrender
+				libxtst
+				libxinerama
+				libice
+				libsm
+				libxkbcommon
+				libpulseaudio
+				libxft
+				icu
+
+				wayland
+				libdecor 
+			];
+
+			jdks = [
+				jdk21
+				jdk25
+			];
+		})
 		r2modman
-		steamcmd
-
-		reaper
-		vital
-
-		davinci-resolve
-
-		heroic
-
-		renderdoc
-
-		vpkedit
-
-		kdePackages.isoimagewriter
-
-		craftos-pc
-
-		shaderc
-
 		deadlock-mod-manager
 
-		pywalfox-native
+		# Debugging
+		renderdoc
 
+		# Custom Steam Proton Version Management
 		protonup-qt
-
-		font-manager
 	];
 
 	# Hyprland
 	wayland.windowManager.hyprland = {
 		enable = true;
+		systemd.enable = false;
 
-		settings = {
-			mainMod = { _var = "SUPER"; };
-
-			terminal = { _var = "alacritty"; };
-			fileManager = { _var = "dolphin"; };
-			browser = { _var = "firefox"; };
-
-			reloadShell = { _var = "pkill quickshell; hyprctl eval \"hl.exec_cmd('qs')\""; };
-			launcher = { _var = "qs ipc call launcher open"; };
-			screenshot = { _var = "grimblast --notify --expire-time 8000 --freeze copysave area"; };
-			colorPick = { _var = "hyprpicker --notify --autocopy --render-inactive"; };
-
-			monitor = [
-				{ _args = [{ output = "DP-1"; mode = "3840x2160@160"; position = "0x0"; scale = 1; }]; }
-				{ _args = [{ output = "DP-2"; mode = "3840x2160@160"; position = "3840x0"; scale = 1; }]; }
-			];
-
-			on = {
-				_args = [
-					"hyprland.start"
-					(lib.generators.mkLuaInline ''function()
-	hl.exec_cmd("pactl load-module module-null-sink media.class=Audio/Source/Virtual sink_name=VirtualMic channel_map=front-left,front-right")
-	hl.exec_cmd("pw-jack carla -n ~/.audio-setup/carla-main.carxp")
-	hl.exec_cmd("qpwgraph ~/.audio-setup/patchbay-main.qpwgraph")
-	
-	hl.exec_cmd("awww-daemon")
-	hl.exec_cmd("pywalfox start --profile-path ~/.config/mozilla/firefox/main --manifest-path ~/.config/mozilla/native-messaging-hosts")
-	hl.exec_cmd("qs")
-
-	hl.exec_cmd("streamcontroller -b")
-	hl.exec_cmd("openrgb --startminimized -p Main.orp")
-	
-	hl.exec_cmd("hypridle")
-end'')
-				];
+		extraLuaFiles = {
+			"inudesk" = {
+				content = ./hyprland/hyprland.lua;
+				autoLoad = true;
 			};
 		};
 	};
@@ -132,14 +130,10 @@ end'')
 		};
 	};
 
-	# Shell
-	programs.quickshell = {
-		enable = true;
-	};
-
 	# Theming
 	## Cursor
 	home.pointerCursor = {
+		enable = true;
 		gtk.enable = true;
 		package = pkgs.posy-cursors;
 		name = "Posy_Cursor_Black";
@@ -161,6 +155,8 @@ end'')
 			Appearence = {
 				icon_theme = "Papirus-Dark";
 				standard_dialogs = "xdgdesktopportal";
+				style = "fusion";
+				color_scheme = "darker";
 			};
 			Fonts = {
 				general = "\"JetBrainsMono Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0\"";
@@ -171,6 +167,8 @@ end'')
 			Appearence = {
 				icon_theme = "Papirus-Dark";
 				standard_dialogs = "xdgdesktopportal";
+				style = "fusion";
+				color_scheme = "darker";
 			};
 			Fonts = {
 				general = "\"JetBrainsMono Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0\"";
@@ -215,7 +213,7 @@ end'')
 	home.file.".config/wallust/templates/vscode" = { source = ./wallust-templates/vscode/vscode; force = true; };
 	home.file.".config/wallust/templates/vscode.json" = { source = ./wallust-templates/vscode/vscode.json; force = true; };
 
-	## Wallpaper
+	# Wallpaper
 	services.awww = {
 		enable = true;
 	};
@@ -257,6 +255,7 @@ end'')
 	# Visual Studio Code
 	programs.vscode = {
 		enable = true;
+		mutableExtensionsDir = true;
 		profiles.default = {
 			enableUpdateCheck = false;
 			enableExtensionUpdateCheck = false;
@@ -271,28 +270,41 @@ end'')
 				"explorer.confirmDelete" = false;
 
 				"terminal.external.linuxExec" = "fish";
+				"terminal.integrated.defaultProfile.linux" = "fish";
+				"terminal.integrated.profiles.linux" = {
+					"bash" = {
+						"path" = "bash";
+						"icon" = "terminal-bash";
+					};
+					"zsh" = {
+						"path" = "zsh";
+					};
+					"fish" = {
+						"path" = "fish";
+					};
+					"tmux" = {
+						"path" = "tmux";
+						"icon" = "terminal-tmux";
+					};
+					"pwsh" = {
+						"path" = "pwsh";
+						"icon" = "terminal-powershell";
+					};
+				};
 
 				"editor.fontFamily" = "'JetBrainsMono Nerd Font', monospace";
+				"editor.insertSpaces" = false;
 
 				"chat.disableAIFeatures" = true;
 				"chat.agent.enabled" = false;
 
 				"svelte.enable-ts-plugin" = true;
 
-				"workbench.editorAssociations" = {
-					"*.copilotmd" = "vscode.markdown.preview.editor";
-					"{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc" = "default";
-					"*.qrc" = "qt-core.qrcEditor";
-				};
+				"qt-core.showWelcomePageOnActivation" = false;
 
 				"zig.zls.enabled" = "on";
 			};
 		};
-	};
-
-	# Spicetify
-	programs.spicetify = {
-		enable = true;
 	};
 
 	# Nixcord
@@ -301,193 +313,172 @@ end'')
 
 		discord = {
 			enable = true;
-			vencord.enable = false;
 			equicord.enable = true;
+			krisp.enable = false;
 		};
-
-		vesktop.enable = false;
-		equibop.enable = false;
 
 		config = {
 			autoUpdate = true;
 			autoUpdateNotification = true;
+			notifyAboutUpdates = true;
+
 			frameless = true;
-			useQuickCss = true;
+			
 			plugins = {
 				accountPanelServerProfile.enable = true;
+				addAttachments.enable = true;
+				advancedPermissions.enable = true;
 				alwaysExpandRoles.enable = true;
-				anonymiseFileNames = {
+				anonymiseFileNames.enable = true;
+				atSomeone.enable = true;
+				betterActivities.enable = true;
+				betterBackreading.enable = true;
+				betterCommands = {
 					enable = true;
-					anonymiseByDefault = true;
-					method = 0;
-					randomisedLength = 7;
-					consistent = "image";
+					autoFillArguments = false;
 				};
 				betterFolders = {
 					enable = true;
-					sidebar = true;
-					sidebarAnim = true;
 					closeAllFolders = true;
 					closeAllHomeButton = true;
 					closeOthers = true;
 					forceOpen = true;
-					keepIcons = false;
 					showFolderIcon = 2;
+				};
+				betterForwards = {
+					resendOnFail = false;
 				};
 				betterGifAltText.enable = true;
 				betterGifPicker.enable = true;
-				betterRoleContext = {
-					enable = true;
-					roleIconFileFormat = "png";
-				};
-				betterRoleDot = {
-					enable = true;
-					bothStyles = false;
-					copyRoleColorInProfilePopout = false;
-				};
-				betterSessions = {
-					enable = true;
-					backgroundCheck = true;
-					checkInterval = 20;
-				};
-				betterSettings ={
-					enable = true;
-					disableFade = true;
-					organizeMenu = true;
-					eagerLoad = true;
-				};
+				betterInvites.enable = true;
+				betterRoleContext.enable = true;
+				betterSessions.enable = true;
+				betterSettings.enable = true;
 				betterUploadButton.enable = true;
-				blockKrisp.enable = true;
 				biggerStreamPreview.enable = true;
+				blockKrisp.enable = true;
+				bypassPinPrompt.enable = true;
 				callTimer = {
 					enable = true;
-					format = "stopwatch";
+					allCallTimers = true;
+					trackSelf = true;
 				};
+				cancelFriendRequest.enable = true;
+				clearUrls.enable = true;
+				clickableRoles.enable = true;
 				copyEmojiMarkdown.enable = true;
 				copyFileContents.enable = true;
-				copyStickerLinks.enable = true;
+				copyProfileColors.enable = true;
+				copyUserMention.enable = true;
 				crashHandler.enable = true;
+				customFolderIcons.enable = true;
+				customTimestamps = {
+					formats.enable = false;
+				};
+				declutter = {
+					enable = true;
+					alwaysShowUsername = false;
+					removeBillingSettings = false;
+					removeClanTag = false;
+					removeDisplayNameStyles = false;
+					removeLibraryAboveDms = true;
+					removeNameplate = false;
+					removeProfileEffect = false;
+					removeProfileFrame = false;
+					removeQuestsAboveDms = true;
+					removeServerBoostInfo = false;
+				};
+				directFileDownload.enable = true;
 				disableCallIdle.enable = true;
-				expressionCloner.enable = true;
+				dragFavoriteEmotes.enable = true;
+				dragify.enable = true;
+				equibopStreamFixes.enable = true;
+				equiTweaks = {
+					enable = true;
+					noMirroredCamera = true;
+					refreshSlashCommands = true;
+				};
+				fakeNitro = {
+					enable = true;
+					enableEmojiBypass = false;
+					enableStickerBypass = false;
+				};
+				favoriteAnything = {
+					enable = true;
+					localThumbnails = true;
+				};
 				favoriteEmojiFirst.enable = true;
+				findReply.enable = true;
 				fixCodeblockGap.enable = true;
 				fixImagesQuality.enable = true;
-				fixSpotifyEmbeds = {
-					enable = true;
-				};
+				fixSpotifyEmbeds.enable = true;
 				fixYoutubeEmbeds.enable = true;
 				forceOwnerCrown.enable = true;
 				friendInvites.enable = true;
 				fullSearchContext.enable = true;
 				fullUserInChatbox.enable = true;
-				greetStickerPicker = {
-					enable = true;
-					greetMode = "Greet";
-				};
+				gifProviderSwitcher.enable = true;
+				greetStickerPicker.enable = true;
 				hideMedia.enable = true;
-				imageFilename = {
-					enable = true;
-					showFullUrl = false;
-				};
+				imageFilename.enable = true;
 				imageZoom = {
 					enable = true;
-					saveZoomValues = true;
-					invertScroll = true;
-					nearestNeighbour = false;
+					size = 700.0;
 					square = true;
 					zoom = 5.0;
-					size = 700.0;
-					zoomSpeed = 0.5;
 				};
-				implicitRelationships = {
-					enable = true;
-					sortByAffinity = true;
-				};
+				implicitRelationships.enable = true;
+				jumpToTop.enable = true;
 				keepCurrentChannel.enable = true;
-				memberCount = {
-					enable = true;
-					toolTip = true;
-					memberList = true;
-					voiceActivity = true;
-				};
-				mentionAvatars = {
-					enable = true;
-					showAtSymbol = true;
-				};
-				messageClickActions = {
-					enable = true;
-					enableDeleteOnClick = true;
-					enableDoubleClickToEdit = true;
-					enableDoubleClickToReply = true;
-					requireModifier = false;
-				};
-				messageLatency = {
-					enable = true;
-					latency = 2;
-					detectDiscordKotlin = true;
-					showMillis = false;
-					ignoreSelf = false;
-				};
+				memberCount.enable = true;
+				mentionAvatars.enable = true;
+				messageClickActions.enable = true;
+				messageLatency.enable = true;
 				messageLogger = {
 					enable = true;
 					deleteStyle = "overlay";
-					logDeletes = true;
-					collapseDeleted = false;
-					logEdits = true;
-					inlineEdits = true;
 					ignoreBots = false;
-					ignoreSelf = false;
-					ignoreUsers = "";
-					ignoreChannels = "";
-					ignoreGuilds = "";
 				};
+				middleClickTweaks.enable = true;
+				moreUserTags = {
+					tagSettings = {
+						administrator.enable = false;
+						chatModerator.enable = false;
+						moderator.enable = false;
+						moderatorStaff.enable = false;
+						owner.enable = false;
+						voiceModerator.enable = false;
+						webhook.enable = false;
+						enable = false;
+					};
+				};
+				newPluginsManager.enable = true;
 				noF1.enable = true;
+				noNitroUpsell.enable = true;
 				noOnboardingDelay.enable = true;
 				noPendingCount = {
 					enable = true;
 					hideFriendRequestsCount = false;
 					hideMessageRequestsCount = false;
-					hidePremiumOffersCount = true;
 				};
-				noReplyMention = {
-					enable = true;
-					userList = "1234567890123445,1234567890123445";
-					roleList = "1234567890123445,1234567890123445";
-					shouldPingListed = true;
-					inverseShiftReply = false;
-				};
-				openInApp = {
-					enable = true;
-					spotify = true;
-					steam = true;
-				};
+				noReplyMention.enable = true;
+				noSystemBadge.enable = true;
+				notificationTitle.enable = true;
+				openInApp.enable = true;
 				pauseInvitesForever.enable = true;
-				permissionFreeWill = {
-					enable = true;
-					lockout = true;
-					onboarding = true;
-				};
-				permissionsViewer = {
-					enable = true;
-					permissionsSortOrder = 0;
-				};
+				permissionFreeWill.enable = true;
+				permissionsViewer.enable = true;
+				petpet.enable = true;
+				pinIcon.enable = true;
 				readAllNotificationsButton.enable = true;
 				reverseImageSearch.enable = true;
-				sendTimestamps = {
-					enable = true;
-					replaceMessageContents = true;
-				};
+				searchFix.enable = true;
+				sendTimestamps.enable = true;
 				spotifyCrack = {
-					enable = true;
-					noSpotifyAutoPause = true;
 					keepSpotifyActivityOnIdle = true;
 				};
-				spotifyShareCommands.enable = true;
-				userMessagesPronouns = {
-					enable = true;
-					pronounsFormat = "LOWERCASE";
-					showSelf = true;
-				};
+				tidalEmbeds.enable = true;
+				userMessagesPronouns.enable = true;
 				validReply.enable = true;
 				validUser.enable = true;
 				volumeBooster = {
@@ -497,34 +488,20 @@ end'')
 				webKeybinds.enable = true;
 				webScreenShareFixes.enable = true;
 				whoReacted.enable = true;
+				whosWatching.enable = true;
 				youtubeAdblock.enable = true;
-				noNitroUpsell.enable = true;
-				equibopStreamFixes.enable = true;
 			};
 		};
-	};
-
-	# Zed
-	programs.zed-editor = {
-		enable = true;
-		extensions = [
-			"toml"
-
-		 	"nix"
-
-			"make"
-
-			"qml"
-		];
-		userSettings = {
-			disable_ai = true;
-
-			auto_update = false;
-
-			base_keymap = "VSCode";
-
-			hard_tabs = true;
-			show_whitespaces = "all";
+		extraConfig.plugins = {
+			musicRichPresence = {
+				showLastFmLogo = true;
+			};
+			serverListIndicators = {
+				useCompact = false;
+			};
+			shikiCodeblocks = {
+				tryHljs = "SECONDARY";
+			};
 		};
 	};
 

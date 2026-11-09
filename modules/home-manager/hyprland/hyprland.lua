@@ -242,8 +242,8 @@ hl.animation({ leaf = "fade"; enabled = true; speed = 1; bezier = "easeOutQuint"
 hl.animation({ leaf = "border"; enabled = true; speed = 4; bezier = "easeOutQuint"; })
 hl.animation({ leaf = "windows"; enabled = true; speed = 4; bezier = "easeOutQuint"; style = "popin 75%"; })
 hl.animation({ leaf = "windowsMove"; enabled = true; speed = 4; bezier = "easeOutQuint"; })
-hl.animation({ leaf = "layers"; enabled = true; speed = 4; bezier = "easeOutQuint"; style = "popin 75%"; })
 hl.animation({ leaf = "workspaces"; enabled = true; speed = 4; bezier = "easeOutQuint"; style = "slidevert"; })
+hl.animation({ leaf = "layers"; enabled = false; })
 
 -- // Default Monitor
 hl.monitor({ output = ""; mode = "preferred"; position = "auto"; scale = 1; })

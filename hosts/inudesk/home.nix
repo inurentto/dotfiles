@@ -7,6 +7,11 @@
 	# Nixpkgs
 	nixpkgs.config.allowUnfree = true;
 
+	# Environement Variables
+	home.sessionVariables = {
+		QT_STYLE_OVERRIDE = "kvantum";
+	};
+
 	# Packages (Separate into modules)
 	home.packages = with pkgs; [
 		# Disk Management
@@ -151,29 +156,27 @@
 	qt = {
 		enable = true;
 		platformTheme.name = "qtct";
-		qt5ctSettings = {
-			Appearence = {
-				icon_theme = "Papirus-Dark";
-				standard_dialogs = "xdgdesktopportal";
-				style = "fusion";
-				color_scheme = "darker";
-			};
-			Fonts = {
-				general = "\"JetBrainsMono Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0\"";
-				fixed = "\"JetBrainsMono Nerd Font Mono,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0\"";
-			};
+		style = {
+			name = "kvantum";
+			package = pkgs.kdePackages.qtstyleplugin-kvantum;
 		};
 		qt6ctSettings = {
-			Appearence = {
+			Appearance = {
 				icon_theme = "Papirus-Dark";
 				standard_dialogs = "xdgdesktopportal";
-				style = "fusion";
-				color_scheme = "darker";
+				style = "kvantum";
 			};
 			Fonts = {
-				general = "\"JetBrainsMono Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0\"";
-				fixed = "\"JetBrainsMono Nerd Font Mono,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0\"";
+				fixed = "\"JetBrainsMono Nerd Font Propo,12\"";
+				general = "\"JetBrainsMono Nerd Font Mono,12\"";
 			};
+		};
+		kvantum = {
+			enable = true;
+			settings.General.theme = "catppuccin-macchiato-lavender";
+			themes = with pkgs; [
+				catppuccin-kvantum
+			];
 		};
 	};
 	## Color Palette
@@ -212,6 +215,10 @@
 
 	home.file.".config/wallust/templates/vscode" = { source = ./wallust-templates/vscode/vscode; force = true; };
 	home.file.".config/wallust/templates/vscode.json" = { source = ./wallust-templates/vscode/vscode.json; force = true; };
+
+	# Kde Settings
+	home.file.".config/kdeglobals" = { source = ./kde-settings/kdeglobals; force = false; };
+	home.file.".config/dolphinrc" = { source = ./kde-settings/dolphinrc; force = false; };
 
 	# Wallpaper
 	services.awww = {

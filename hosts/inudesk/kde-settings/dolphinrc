@@ -1,0 +1,74 @@
+MenuBar=Disabled
+
+[CompactMode]
+MaximumTextWidthIndex=1
+
+[ContentDisplay]
+UsePermissionsFormat=CombinedFormat
+
+[ContextMenu]
+ShowAddToPlaces=false
+ShowCopyToOtherSplitView=false
+ShowDuplicateHere=false
+ShowMoveToOtherSplitView=false
+ShowOpenInSplitView=false
+ShowOpenTerminal=false
+ShowSortBy=false
+ShowViewMode=false
+
+[DetailsMode]
+ExpandableFolders=false
+IconSize=32
+PreviewSize=32
+
+[ExtractDialog]
+2 screens: Window-Maximized=true
+DirHistory[$e]=$HOME/Downloads/
+
+[General]
+BrowseThroughArchives=true
+ConfirmClosingMultipleTabs=false
+ConfirmClosingTerminalRunningProgram=false
+DoubleClickViewAction=none
+DynamicView=true
+EditableUrl=true
+RememberOpenedTabs=false
+ShowFullPath=true
+ShowFullPathInTitlebar=true
+ShowStatusBar=FullWidth
+TabStyle=FullWidth
+Version=202
+ViewPropsTimestamp=2025,10,1,17,39,55.734
+
+[IconsMode]
+PreviewSize=96
+
+[InformationPanel]
+dateFormat=ShortFormat
+showHovered=false
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[MainWindow]
+MenuBar=Disabled
+
+[MainWindow][Toolbar mainToolBar]
+ToolButtonStyle=IconOnly
+
+[Notification Messages]
+ConfirmOpenManyFolders=false
+ConfirmOpenManyTerminals=false
+
+[PreviewSettings]
+Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mltpreview,opendocumentthumbnail,svgthumbnail
+
+[Toolbar mainToolBar]
+ToolButtonStyle=IconOnly
+
+[VersionControl]
+enabledPlugins=Git
+
+[ViewPropertiesDialog]
+2 screens: Window-Maximized=true

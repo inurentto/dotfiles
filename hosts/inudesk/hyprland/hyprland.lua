@@ -10,7 +10,7 @@ hl.monitor({ output = "DP-2", mode = "3840x2160@160", position = "3840x0", scale
 hl.bind(vars.mainMod .. " + HOME", hl.dsp.exec_cmd("inu-shell kill; inu-shell")) -- Reload Shell
 hl.bind(vars.mainMod .. " + SUPER_L", hl.dsp.exec_cmd("inu-shell ipc call launcher open"), { release = true }) -- Open Launcher
 hl.bind(vars.mainMod .. " + PRINT", hl.dsp.exec_cmd("hyprpicker --notify --autocopy --render-inactive")) -- Color Picker
-hl.bind("PRINT", hl.dsp.exec_cmd("grimblast")) -- Screenshot
+hl.bind("PRINT", hl.dsp.exec_cmd("grimblast copysave area --freeze --expire-time 8000 --notify")) -- Screenshot
 
 -- App Shortcuts
 hl.bind(vars.mainMod .. " + T", hl.dsp.exec_cmd("alacritty"))

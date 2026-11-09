@@ -10,6 +10,7 @@
 	# Environement Variables
 	home.sessionVariables = {
 		QT_STYLE_OVERRIDE = "kvantum";
+		KRITA_NO_STYLE_OVERRIDE = "1";
 	};
 
 	# Packages (Separate into modules)

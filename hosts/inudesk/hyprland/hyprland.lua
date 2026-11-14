@@ -33,7 +33,7 @@ hl.on("hyprland.start", function()
 	-- Shell
 	hl.exec_cmd("awww-daemon")
 	hl.exec_cmd("inu-shell")
-	hl.exec_cmd("hypridle")
+	hl.exec_cmd("systemctl --user start hypridle")
 	hl.exec_cmd("streamcontroller -b")
 	hl.exec_cmd("openrgb --startminimized -p Main.orp")
 end)

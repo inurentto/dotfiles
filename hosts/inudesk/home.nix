@@ -96,6 +96,7 @@
 		})
 		r2modman
 		deadlock-mod-manager
+		bs-manager
 
 		# Debugging
 		renderdoc

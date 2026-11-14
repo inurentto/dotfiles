@@ -11,6 +11,9 @@
 	boot = {
 		kernelPackages = pkgs.linuxPackages_7_2;
 		loader.limine.secureBoot.enable = true;
+		extraModprobeConfig = ''
+			options cfg80211 ieee80211_regdom=SE
+		'';
 	};
 
 	# Automount
@@ -63,6 +66,7 @@
 			};
 		};
 		sc0710.enable = true;
+		enableRedistributableFirmware = true;
 	};
 
 	# Environment Variables
@@ -144,9 +148,11 @@
 		enable = true;
 		gamescopeSession.enable = true;
 		protontricks.enable = true;
+		remotePlay.openFirewall = true;
 		extest.enable = true;
 		extraPackages = with pkgs; [
 			posy-cursors
+			hidapi
 		];
 	};
 
@@ -203,6 +209,9 @@
 		rnnoise-plugin
 		lsp-plugins
 		vital
+
+		# Steam Frame
+		iw
 	];
 
 	# I DON'T WANT THIS HERE

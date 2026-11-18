@@ -143,6 +143,7 @@
 			allowedUDPPorts = [];
 		};
 	};
+	systemd.services.NetworkManager-wait-online.enable = false; # Don't wait for network connection on startup
 
 	# Bluetooth
 	hardware.bluetooth = {

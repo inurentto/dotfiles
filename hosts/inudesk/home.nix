@@ -303,6 +303,8 @@
 
 				"editor.fontFamily" = "'JetBrainsMono Nerd Font', monospace";
 				"editor.insertSpaces" = false;
+				"editor.minimap.scale" = 2;
+				"editor.minimap.sectionHeaderFontSize" = 12;
 
 				"chat.disableAIFeatures" = true;
 				"chat.agent.enabled" = false;

@@ -269,6 +269,10 @@
 			enableUpdateCheck = false;
 			enableExtensionUpdateCheck = false;
 			userSettings = {
+				"window.titleBarStyle" = "native";
+				"window.menuStyle" = "custom";
+				"window.menuBarVisibility" = "visible";
+
 				"workbench.colorTheme" = "Catppuccin Macchiato";
 				"workbench.iconTheme" = "catppuccin-perfect-macchiato";
 				"workbench.sideBar.location" = "right";

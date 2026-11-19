@@ -427,7 +427,6 @@
 				forceOwnerCrown.enable = true;
 				friendInvites.enable = true;
 				fullSearchContext.enable = true;
-				fullUserInChatbox.enable = true;
 				gifProviderSwitcher.enable = true;
 				greetStickerPicker.enable = true;
 				hideMedia.enable = true;

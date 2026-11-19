@@ -9,7 +9,7 @@
 
 	# Boot
 	boot = {
-		kernelPackages = pkgs.linuxPackages_7_2;
+		kernelPackages = pkgs.linuxPackages_latest;
 		loader.limine.secureBoot.enable = true;
 		extraModprobeConfig = ''
 			options cfg80211 ieee80211_regdom=SE
@@ -54,16 +54,7 @@
 			open = true;
 			nvidiaSettings = false;
 
-			# config.boot.kernelPackages.nvidiaPackages.stable;
-			# Temporary custom nvidia driver module because the one from nix doesn't have linux 7.2 support
-			package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-				version = "610.57.04";
-				sha256_64bit = "sha256-suk1xmuDuwDAyFe8jg7g/VLekoa0DJzB7sKafOfrEW0=";
-				sha256_aarch64 = "sha256-QCefrMBCmpOwuOyXv1k5Gj0iB2CYlPgnG3JToUw/j54=";
-				openSha256 = "sha256-rQHOOOY4KL92Ww3KDwh+j4eGU7oNAH8LutZC5wmFnPo=";
-				settingsSha256 = "sha256-ZEMo8I8Zc2Tq6RVDNYpAH+f094dUaZiBqO+5f6lIjRI=";
-				persistencedSha256 = "sha256-aXmD2VY1RLlgAnlHhOUMWzvMyhI6JTClcFLm4imF/mA=";
-			};
+			branch = "stable";
 		};
 		sc0710.enable = true;
 		enableRedistributableFirmware = true;
@@ -141,7 +132,7 @@
 	};
 
 	# Stream Controller
-	programs.streamcontroller.enable = false; # Temp move to flatpak because of python tests failing in latest version due to deprication
+	programs.streamcontroller.enable = true;
 
 	# Steam
 	programs.steam = {

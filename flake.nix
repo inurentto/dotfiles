@@ -3,7 +3,7 @@
 
 	inputs = {
 		# Nix Packages & Config
-		nixpkgs.url = "nixpkgs/nixos-26.05";
+		nixpkgs.url = "nixpkgs/nixos-unstable";
 		home-manager = {
 			url = "github:nix-community/home-manager";
 			inputs.nixpkgs.follows = "nixpkgs";
@@ -13,16 +13,15 @@
 		sc0710.url = "github:Nakildias/sc0710";
 
 		# Apps
-		nixcord.url = "github:4evy/nixcord";
+		nixcord = {
+			url = "github:4evy/nixcord";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
 
 		# Shell
-		inu-shell.url = "github:inurentto/inushell-mirror";
-
-		# Hypyrland
-		hyprland.url = "github:hyprwm/Hyprland/v0.57.0";
-		hyprcapture = {
-			url = "github:gfhdhytghd/HyprCapture";
-			inputs.hyprland.follows = "hyprland";
+		inu-shell = {
+			url = "github:inurentto/inushell-mirror";
+			inputs.nixpkgs.follows = "nixpkgs";
 		};
 	};
 
@@ -40,6 +39,7 @@
 							rebuild-nixos = "sudo nixos-rebuild switch --flake ~/.config/nixos#${hostname}";
 							cleanup-nixos = "sudo nix-collect-garbage --delete-old";
 							update-nixos-hardware = "sudo nixos-generate-config --dir ~/.config/nixos/hosts/${hostname}";
+							update-nixos-flake = "sudo nix flake update --flake ~/.config/nixos";
 						};
 					}
 

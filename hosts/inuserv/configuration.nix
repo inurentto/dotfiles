@@ -31,11 +31,9 @@
     maxPlayers = 8;
   };
 
-  # Java
-  programs.devtools = {
-		enable = true;
-		java.enable25 = true;
-  };
+  environment.systemPackages = with pkgs; [
+    jdk21
+  ]
 
   networking.firewall = {
     allowedTCPPorts = [ 25565 ];

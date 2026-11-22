@@ -33,7 +33,7 @@
 
   environment.systemPackages = with pkgs; [
     jdk21
-  ]
+  ];
 
   networking.firewall = {
     allowedTCPPorts = [ 25565 ];

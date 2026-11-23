@@ -7,6 +7,12 @@
   # Allow Unfree Packages
   nixpkgs.config.allowUnfree = true;
 
+  # Automount
+  fileSystems."/run/media/inurentto/External" = {
+		device = "/dev/sda1";
+		fsType = "ext4";
+	};
+
   # SSH
   services.openssh = {
     enable = true;
@@ -31,13 +37,15 @@
     maxPlayers = 8;
   };
 
-  environment.systemPackages = with pkgs; [
-    jdk21
-  ];
-
+  # Firewall
   networking.firewall = {
-    allowedTCPPorts = [ 25565 ];
-    allowedUDPPorts = [ 25565 24454 ];
+    allowedTCPPorts = [
+      25565 # Minecraft
+    ];
+    allowedUDPPorts = [
+      25565 # Minecraft
+      24454 # Minecraft Simple Voice Chat
+    ];
   };
 
   # State Version

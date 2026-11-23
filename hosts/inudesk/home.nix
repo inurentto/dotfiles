@@ -90,6 +90,7 @@
 			];
 
 			jdks = [
+				jdk17
 				jdk21
 				jdk25
 			];
@@ -97,6 +98,7 @@
 		r2modman
 		deadlock-mod-manager
 		bs-manager
+		blockbench
 
 		# Debugging
 		renderdoc

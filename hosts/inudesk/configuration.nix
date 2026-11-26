@@ -18,11 +18,11 @@
 
 	# Automount
 	fileSystems."/run/media/inurentto/Games" = {
-		device = "/dev/sdb1";
+		device = "/dev/sda1";
 		fsType = "btrfs";
 	};
 	fileSystems."/run/media/inurentto/Dedicated Servers" = {
-		device = "/dev/sda1";
+		device = "/dev/sdb1";
 		fsType = "btrfs";
 	};
 
@@ -88,6 +88,23 @@
 
 		XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots";
 	};
+
+	# Wayland
+	xdg.portal = {
+		enable = true;
+		xdgOpenUsePortal = false;
+
+		extraPortals = with pkgs; [
+			inputs.luciole.packages.${pkgs.stdenv.hostPlatform.system}.default
+			xdg-desktop-portal-hyprland
+			xdg-desktop-portal-gtk
+		];
+
+		config.common = {
+			default = [ "hyprland" "gtk" ];
+			"org.freedesktop.impl.portal.FileChooser" = [ "luciole" "gtk" ];
+		};
+	};
 	
 	# UPower
 	services.upower = {
@@ -116,19 +133,6 @@
 	programs.hyprland = {
 		enable = true;
 		withUWSM = true;
-	};
-
-	# File Manager
-	programs.dolphin = {
-		enable = true;
-		plugins = {
-			archives = true;
-			network = true;
-			fuse = true;
-			extras = true;
-			admin = true;
-		};
-		filelight = true;
 	};
 
 	# Stream Controller
@@ -171,6 +175,9 @@
 
 	# System Packages (Separate into modules)
 	environment.systemPackages = with pkgs; [
+		# File Manager
+		inputs.luciole.packages.${pkgs.stdenv.hostPlatform.system}.default
+
 		# Notifications
 		libnotify
 

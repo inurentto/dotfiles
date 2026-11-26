@@ -17,6 +17,10 @@
 			url = "github:4evy/nixcord";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+		luciole = {
+			url = "github:noctalia-dev/luciole";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
 
 		# Shell
 		inu-shell = {

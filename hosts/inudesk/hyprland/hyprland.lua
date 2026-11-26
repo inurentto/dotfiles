@@ -13,7 +13,7 @@ hl.bind("PRINT", hl.dsp.exec_cmd("grimblast copysave area --freeze --expire-time
 
 -- App Shortcuts
 hl.bind(vars.mainMod .. " + T", hl.dsp.exec_cmd("alacritty"))
-hl.bind(vars.mainMod .. " + E", hl.dsp.exec_cmd("dolphin"))
+hl.bind(vars.mainMod .. " + E", hl.dsp.exec_cmd("luciole"))
 hl.bind(vars.mainMod .. " + B", hl.dsp.exec_cmd("firefox"))
 
 -- Media Controls

@@ -72,23 +72,6 @@
 	# Terminal Shell
 	programs.fish.enable = true;
 
-	# Wayland
-	xdg.portal = {
-		enable = true;
-		xdgOpenUsePortal = false;
-
-		extraPortals = with pkgs; [
-			xdg-desktop-portal-hyprland
-			xdg-desktop-portal-gtk
-		];
-
-		config = {
-			common = {
-				default = "hyprland;gtk";
-			};
-		};
-	};
-
 	# X11
 	services.xserver = {
 		enable = true;

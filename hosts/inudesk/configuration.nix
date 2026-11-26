@@ -18,11 +18,11 @@
 
 	# Automount
 	fileSystems."/run/media/inurentto/Games" = {
-		device = "/dev/sda1";
+		device = "/dev/sdb1";
 		fsType = "btrfs";
 	};
 	fileSystems."/run/media/inurentto/Dedicated Servers" = {
-		device = "/dev/sdb1";
+		device = "/dev/sda1";
 		fsType = "btrfs";
 	};
 
